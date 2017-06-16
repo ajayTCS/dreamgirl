@@ -173,7 +173,7 @@ func main() {
     r.HandleFunc("/any", serveAnyTemplate)
     r.HandleFunc("/myLinkedFaces", serveMyLinedFaceTemplate)
     r.HandleFunc("/linkAuth", serveAuth).Methods("POST")
-    r.PathPrefix("/").Handler(http.FileServer(http.Dir("./public/")))
+    r.PathPrefix("/static/").Handler(http.FileServer(http.Dir("./public/")))
     log.Println("Listening...to all")
     http.ListenAndServe(":"+port, r)
 }
