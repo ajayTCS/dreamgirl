@@ -167,13 +167,13 @@ func main() {
       log.Fatal("$PORT must be set")
     }
     r := mux.NewRouter()
-    r.HandleFunc("/", serveMainTemplate)
     r.HandleFunc("/login", serveTemplate)
     r.HandleFunc("/signup", serveSignupTemplate)
     r.HandleFunc("/any", serveAnyTemplate)
     r.HandleFunc("/myLinkedFaces", serveMyLinedFaceTemplate)
     r.HandleFunc("/linkAuth", serveAuth).Methods("POST")
-    r.PathPrefix("/static/").Handler(http.FileServer(http.Dir("./public/")))
+    r.PathPrefix("/").Handler(http.FileServer(http.Dir("./public/")))
+    r.Handle("/", serveMainTemplate)
     log.Println("Listening...to all")
     http.ListenAndServe(":"+port, r)
 }
