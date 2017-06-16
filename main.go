@@ -103,7 +103,6 @@ func serveMainTemplate(w http.ResponseWriter,r *http.Request)  {
   w.Header().Set("Content-Type", "text/html")
   w.Header().Set("charset", "utf-8")
   w.Header().Set("Access-Control-Allow-Origin", "*")
-  w.Header().Set("Connection", "keep-alive")
   t.ExecuteTemplate(w, "home", mnb)
 }
 
