@@ -1,0 +1,137 @@
+{{define "homeBodyPartThree"}}
+
+
+
+	<script type="text/babel">
+		'use strict';
+
+		const ChatBoxContainer={width:"100%",height:"100%"};
+		const indiChatHeadClickable={width:"24%",marginLeft:"1%",height:"100%",display:"inline",float:"right"}
+		class SudoChatBox extends React.Component {
+			constructor(props) {
+				super(props);
+				this.state = {
+					psudoChatArray:JSON.parse(sessionStorage.psudoChatArray).chatArray
+				};
+				this.componentWillMount=this.componentWillMount.bind(this);
+			}
+			componentWillMount(){
+
+			}
+			render(){
+				return (
+					<div style={ChatBoxContainer}>
+						{
+							this.state.psudoChatArray.map( (a,b) => {
+								console.log(a);
+								return (
+									<div key={b} style={indiChatHeadClickable}>
+										{a.get('name')}
+									</div>
+								)
+							} )
+						}
+					</div>
+				)
+			}
+		}
+
+
+		const homeBodyMainStyle={width:"100%",height:"100%",marginTop:"55px"};
+		const home_p_three_white={width:"70%",height:"100%",backgroundColor:"white",border:"1px solid lightgrey",float:"left"};
+		const partThreeTrndings={width:"100%",height:"300px"};
+		const partThreeLinkedFaces={width:"100%",height:"900px",overflowY:"scroll"};
+		const mlMyLinkFSup={width:"100%",height:"40px",display:"flex",justifyContent:"center",alignItems:"center",marginBottom:"20px"}
+		const myLinkefaceUI={width:"99%",height:"30px",display:"flex",justifyContent:"center",alignItems:"center",marginBottom:"10px",border:"1px solid #e6ecf0",backgroundColor:"white",cursor:"pointer"};
+		class HomeBodyPartThree extends React.Component {
+			constructor(props){
+				super(props);
+				this.state = {
+					faceMapper:[]
+				};
+				this.componentDidMount=this.componentDidMount.bind(this);
+				this._mm_faceClickOpenChat=this._mm_faceClickOpenChat.bind(this);
+			}
+			_mm_faceClickOpenChat(evt){
+				evt.preventDefault();
+				evt.stopPropagation();
+				evt.persist();
+				console.log(evt.target.innerText);
+				console.log(evt.target.lastChild.value);
+				if (sessionStorage.psudoChatArray=="undefined") {
+					//let st=JSON.parse(sessionStorage.psudoChatArray).chatArray;
+					let ar=[];
+					let mp=new Map();
+					mp.set("name",evt.target.innerText);
+					mp.set("id",evt.target.lastChild.value);
+					let mnp=new Map();
+					mp.set("message",mnp)
+					ar.push(mp)
+					console.log(mp);
+					console.log(ar);
+					console.log("if");
+					//let ob={name:evt.target.innerText,id:JSON.parse(evt.target.lastChild.value),message:[]}
+					let st=JSON.stringify({chatArray:ar})
+					console.log(st);
+					sessionStorage.psudoChatArray=st;
+				}else {
+					let mp=new Map();
+					console.log("else");
+					mp.set("name",evt.target.innerText);
+					mp.set("id",evt.target.lastChild.value);
+					let mnp=new Map();
+					mp.set("message",mnp)
+					//let ob={name:evt.target.innerText,id:JSON.parse(evt.target.lastChild.value),message:[]}
+					let st=JSON.parse(sessionStorage.psudoChatArray).chatArray;
+					st.push(mp);
+					let str=JSON.stringify({chatArray:st})
+					sessionStorage.psudoChatArray=str;
+				}
+				ReactDOM.render(<SudoChatBox />,document.getElementById('_chat_container'))
+			}
+			componentDidMount(){
+				var that=this;
+				Rx.Observable.ajax({ url: '/myLinkedFaces', responseType: 'json',method:'GET'}).map(data=>data.response)
+				.subscribe(
+				function (data) {
+					console.log(data);
+					that.setState({
+						faceMapper:data.All
+					})
+				},
+				function (error) {
+					console.log(error);
+				}
+				);
+			}
+			render(){
+				return (
+					<div style={homeBodyMainStyle}>
+						<div style={home_p_three_white}>
+							<div style={partThreeTrndings}>
+							</div>
+							<div style={partThreeLinkedFaces}>
+								<div style={mlMyLinkFSup}>
+									<font size={4}>My linked faces</font>
+								</div>
+								{
+									this.state.faceMapper.map( (a,b) => {
+										return (
+											<div key={b} style={myLinkefaceUI} onClick={this._mm_faceClickOpenChat}>
+												{
+													a[0]
+												}
+												<input type="hidden" value={JSON.stringify(a[1])} />
+											</div>
+										)
+									} )
+								}
+							</div>
+						</div>
+					</div>
+				)
+			}
+		}
+		ReactDOM.render(<HomeBodyPartThree />,document.getElementById('_bdy_part_3'));
+	</script>
+{{end}}

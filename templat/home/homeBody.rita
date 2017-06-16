@@ -1,0 +1,331 @@
+{{define "homeBodyPartTwo"}}
+
+
+
+	<script type="text/babel">
+		'use strict';
+
+		window.__my_previous=[];
+		window.addEventListener("observeArray",function(evt){
+			evt.preventDefault();
+			evt.stopPropagation();
+
+		})
+		
+
+
+
+		const enableBackgroundM={enableBackground:"new 0 0 50 50"};
+		class Spinner extends React.Component {
+				 		constructor(props){
+				 			super(props);
+				 			this.state = {
+				 			};
+				 		}
+				 		render(){
+				 			return (
+				 				<div className="loader loader--style5" title="4">
+		  							<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+		  width="24px" height="30px" viewBox="0 0 24 30" style={enableBackgroundM} xmlSpace="preserve">
+		    <rect x="0" y="0" width="4" height="20" fill="#333">
+		      <animateTransform attributeType="xml"
+		        attributeName="transform" type="translate"
+		        values="0 0; 0 20; 0 0"
+		        begin="0" dur="0.6s" repeatCount="indefinite" />
+		    </rect>
+		    <rect x="10" y="0" width="4" height="10" fill="#333">
+		      <animateTransform attributeType="xml"
+		        attributeName="transform" type="translate"
+		        values="0 0; 0 20; 0 0"
+		        begin="0.2s" dur="0.6s" repeatCount="indefinite" />
+		    </rect>
+		    <rect x="20" y="0" width="4" height="20" fill="#333">
+		      <animateTransform attributeType="xml"
+		        attributeName="transform" type="translate"
+		        values="0 0; 0 20; 0 0"
+		        begin="0.4s" dur="0.6s" repeatCount="indefinite" />
+		    </rect>
+		  </svg>
+		</div>
+				 			)
+				 		}
+				 	}
+
+
+		const suggestionAbMusic={width:"100%",height:"400px",position:"relative",zIndex:"5",backgroundColor:"#f5f8fa",overflowY:"scroll"};
+		const songSuggestTextStyle={width:"99%",marginBottom:"10px",backgroundColor:"white",minHeight:"40px",display:"flex",justifyContent:"center",alignItems:"center",border:"1px solid #e6ecf0",borderRadius:"4px"};
+		const spinnerFlexCont={width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"};
+		class SuggestionOfMusic extends React.Component {
+			constructor(props) {
+				super(props);
+				this.state={
+					inputArr:this.props.Mapper
+				};
+				this.componentWillReceiveProps=this.componentWillReceiveProps.bind(this);
+			}
+			componentWillReceiveProps(newProps){
+				this.setState({
+					inputArr:newProps.Mapper
+				})
+			}
+			render(){
+				return (
+					<div style={suggestionAbMusic}>
+					{
+						this.state.inputArr.length==0?(<div style={spinnerFlexCont}><Spinner /></div>):(
+							this.state.inputArr.map( (a,b) => {
+								return (
+									<div key={b} style={songSuggestTextStyle}>{a}
+									</div>
+								)
+							} )
+						)
+					}
+					</div>
+				)
+			}
+		}
+
+		const myEnjoymentVideoBox={width:"100%",height:"100%"};
+		const videoContainer={width:"100%",height:"300px"};
+		const videoContainerAfter={width:"100%",height:"50px"};
+		const actVideoPlayer={width:"100%",height:"100%"};
+		const inputTypeSerchMusic={width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"};
+		const actInputBox={width:"99%",height:"30px",textIndent:"10px",border:"1px solid #e6ecf0"};
+		const searchSuggestionMusic={width:"100%"};
+		class MyEnjoyment extends React.Component {
+			constructor(props) {
+				super(props);
+				this.state = {
+					searchBoxText:"",
+					inputArr:[],
+					maybeDangerous:false
+				};
+				this._ms="";
+				this._mm_videoSearchBoxChng=this._mm_videoSearchBoxChng.bind(this);
+				this._mm_ipt_serch_music_bluri=this._mm_ipt_serch_music_bluri.bind(this);
+				this.componentDidMount=this.componentDidMount.bind(this);
+			}
+			componentDidMount(){
+				var inp=this.refs._mm_large_textarea;
+				var that=this;
+				if(!this.state.maybeDangerous){
+					const source = Rx.Observable.fromEvent(inp, 'input');
+					const sour1=source.debounceTime(500).map(evt=>evt.target.value);
+					const subscribe = sour1.subscribe((val) => {
+						Rx.Observable.ajax({ url: '/any', responseType: 'json',method:'GET'}).map(data=>data.response)
+	  				.subscribe(
+	    			function (data) {
+	      			console.log(data.Content);
+							that.setState({
+								inputArr:data.Content
+							});
+							if (!that.state.maybeDangerous) {
+								ReactDOM.render(<SuggestionOfMusic Mapper={data.Content} />,document.getElementById('_songs_search_suggestion'));
+							}
+
+	    			},
+	    		function (error) {
+		      		console.log(error);
+	    			}
+	  			);
+					});
+				}
+
+			}
+			_mm_ipt_serch_music_bluri(evt){
+				evt.preventDefault();
+				evt.stopPropagation();
+				if (evt.target.value=="") {
+					this.setState({
+						maybeDangerous:true,
+					});
+					ReactDOM.unmountComponentAtNode(document.getElementById('_songs_search_suggestion'));
+				}
+			}
+			_mm_videoSearchBoxChng(evt){
+				evt.preventDefault();
+				evt.stopPropagation();
+				if(evt.target.value==""){
+					this.setState({
+						maybeDangerous:true,
+						searchBoxText:evt.target.value
+					});
+				}else {
+					this.setState({
+						searchBoxText:evt.target.value,
+					});
+				}
+
+
+				ReactDOM.render(<SuggestionOfMusic Mapper={this.state.inputArr} />,document.getElementById('_songs_search_suggestion'));
+			}
+			render(){
+				return (
+					<div style={myEnjoymentVideoBox}>
+						<div style={videoContainer}>
+							<video src="har har mahadeb.mp4" style={actVideoPlayer} controls="true"></video>
+						</div>
+						<div style={videoContainerAfter}>
+							<div style={inputTypeSerchMusic}>
+								<input ref="_mm_large_textarea" type="text" style={actInputBox} placeholder="search songs" value={this.state.searchBoxText} onChange={this._mm_videoSearchBoxChng} onBlur={this._mm_ipt_serch_music_bluri} />
+							</div>
+							<div id="_songs_search_suggestion" style={searchSuggestionMusic}>
+
+							</div>
+						</div>
+					</div>
+				)
+			}
+		}
+
+		const postBoxMainStyle={width:"100%",height:"100%"};
+		const texta_cnt={width:"100%",height:"70%"};
+		const texta_after_cnt={width:"100%",height:"30%"};
+		const texta_act_style={width:"99%",height:"100%",border:"1px solid #e6ecf0",textIndent:"10px",fontSize:"18px"};
+		const dflex_bt_style={width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"};
+		const bt_nabi_rasoola={width:"20%",height:"50%",backgroundColor:"transparent",border:"1px solid #e6ecf0",marginRight:"10%",cursor:"pointer"};
+		const bt_nabi_rasoola_billa={width:"20%",height:"50%",backgroundColor:"transparent",border:"1px solid #e6ecf0",marginLeft:"10%",cursor:"pointer"};
+		const bt_nabi_rasoola_nabi={width:"40%",height:"50%",backgroundColor:"transparent",border:"1px solid #e6ecf0"};
+		class PostBox extends React.Component {
+			constructor(props) {
+				super(props);
+				this.state = {
+					totalChar:256,
+					typed:0,
+					textaVal:""
+				};
+				this._mm_texta_change=this._mm_texta_change.bind(this);
+			}
+			_mm_texta_change(evt){
+				evt.preventDefault();
+				evt.stopPropagation();
+				if(evt.target.value.length<=256){
+					this.setState({
+						textaVal:evt.target.value,
+						typed:evt.target.value.length
+					})
+				}else {
+					this.setState({
+						textaVal:this.state.textaVal,
+						typed:this.state.textaVal.length
+					})
+				}
+			}
+			render(){
+				return (
+					<div style={postBoxMainStyle}>
+						<div style={texta_cnt}>
+							<textarea style={texta_act_style} placeholder="share your mind stuff" value={this.state.textaVal} onChange={this._mm_texta_change}></textarea>
+						</div>
+						<div style={texta_after_cnt}>
+							<div style={postBoxMainStyle}>
+								<div style={dflex_bt_style}>
+									<input type="button" style={bt_nabi_rasoola} value="share" />
+									<input type="button" style={bt_nabi_rasoola_nabi} value={`${this.state.totalChar-this.state.typed} charecter left`} disabled="true" />
+									<input type="button" style={bt_nabi_rasoola_billa} value="attachment" />
+								</div>
+							</div>
+						</div>
+					</div>
+				)
+			}
+		}
+
+		const homeBodyMainStyle={width:"100%",height:"100%",marginTop:"55px",backgroundColor:"white",border:"1px solid lightgrey"};
+		const tempContHundred={width:"100%",height:"100%"};
+		const switchContStyle={width:"100%",height:"30px",marginBottom:"10px"};
+		const internalChangeClickStyle={width:"50%",height:"100%",display:"inline",float:"left"};
+		var flexClickableStyle_post=(colorB) =>{
+			return {width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center",backgroundColor:colorB,cursor:"pointer"};
+		}
+		var flexClickableStyle_enjoyment=(colorB) => {
+			return {width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center",backgroundColor:colorB,cursor:"pointer"};
+		}
+		var _music_and_post=(a) => {
+			return{width:"100%",height:a,overflowY:"scroll"};
+		}
+		var _music_and_post_billa=(a) => {
+			return {width:"100%",height:a};
+		}
+		const fHundredStyle={width:"100%",height:"500px"}
+		class HomeBodyPartTwo extends React.Component {
+			constructor(props){
+				super(props);
+				this.state = {
+					logMsg:"Sign up to Linkedface",
+					enjBackColor:"#f5f8fa",
+					postBackColor:"white",
+					myTarget:"post",
+					testBilla:["a","b","c","d","e","f"],
+					scrH:"960px"
+				};
+				this._mm_enj_white=this._mm_enj_white.bind(this);
+				this._mm_post_white=this._mm_post_white.bind(this);
+			}
+			_mm_post_white(evt){
+				evt.preventDefault();
+				evt.stopPropagation();
+				this.setState({
+					enjBackColor:"#f5f8fa",
+					postBackColor:"white",
+					myTarget:"post",
+					scrH:"960px"
+				});
+			}
+			_mm_enj_white(evt){
+				evt.preventDefault();
+				evt.stopPropagation();
+				this.setState({
+					enjBackColor:"white",
+					postBackColor:"#f5f8fa",
+					myTarget:"enjoyment",
+					scrH:"810px"
+				});
+			}
+			render(){
+				return (
+					<div style={homeBodyMainStyle}>
+						<div style={tempContHundred}>
+							<div style={switchContStyle}>
+								<div style={internalChangeClickStyle}>
+									<div style={flexClickableStyle_post(this.state.postBackColor)} onClick={this._mm_post_white}>
+										<font size={4}>posts</font>
+									</div>
+								</div>
+								<div style={internalChangeClickStyle}>
+									<div style={flexClickableStyle_enjoyment(this.state.enjBackColor)} onClick={this._mm_enj_white}>
+										<font size={4}>enjoyments</font>
+									</div>
+								</div>
+							</div>
+							{
+								this.state.myTarget=="post"?(
+									<div style={_music_and_post_billa("200px")}>
+										<PostBox />
+									</div>
+								):(
+									<div style={_music_and_post_billa("350px")}>
+										<MyEnjoyment />
+									</div>
+								)
+							}
+							<div style={_music_and_post(this.state.scrH)}>
+								{
+									this.state.testBilla.map( (a,b) => {
+										return (
+											<div key={b} style={fHundredStyle}>a
+											</div>
+										)
+									} )
+								}
+							</div>
+						</div>
+
+					</div>
+				)
+			}
+		}
+		ReactDOM.render(<HomeBodyPartTwo />,document.getElementById('_bdy_part_2'));
+	</script>
+{{end}}

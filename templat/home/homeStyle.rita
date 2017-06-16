@@ -1,0 +1,11 @@
+{{define "homeStyle"}}
+<style type="text/css">
+	body{background-color: #f5f8fa;}
+	#_head{width:100%;height:50px;background-color:white;position: fixed;left:0;top:0;border-top:2px solid lightgrey;border-bottom:2px solid lightgrey;z-index:10}
+	#_body{width:100%;height: 1200px;background-color: #f5f8fa;}
+	#_bdy_part_1{width: 29%;height: 100%;display: inline;float: left;margin-right:1%;}
+	#_bdy_part_2{width: 40%;height: 100%;display: inline;float: left;margin-right:1%;}
+	#_bdy_part_3{width: 29%;height: 100%;display: inline;float: right}
+	#_chat_container{width:68%;height:30px;position:fixed;z-index:25;border:1px solid red;margin-top:750px}
+</style>
+{{end}}

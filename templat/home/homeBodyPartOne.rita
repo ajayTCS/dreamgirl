@@ -1,0 +1,33 @@
+{{define "homeBodyPartOne"}}
+
+
+
+	<script type="text/babel">
+		'use strict';
+		const homeBodyMainStyle={width:"100%",height:"100%",marginTop:"55px"};
+		const home_p_three_white={width:"70%",height:"100%",backgroundColor:"white",border:"1px solid lightgrey",float:"right"};
+		const dpStyle={width:"100%",height:"250px"};
+		const dpImgStyle={width:"100%",height:"100%"};
+		class HomeBodyPartOne extends React.Component {
+			constructor(props){
+				super(props);
+				this.state = {
+					logMsg:"Sign up to Linkedface",
+					rc:"/ajay.jpg"
+				};
+			}
+			render(){
+				return (
+					<div style={homeBodyMainStyle}>
+						<div style={home_p_three_white}>
+							<div style={dpStyle}>
+								<img src={this.state.rc} style={dpImgStyle} />
+							</div>
+						</div>
+					</div>
+				)
+			}
+		}
+		ReactDOM.render(<HomeBodyPartOne />,document.getElementById('_bdy_part_1'));
+	</script>
+{{end}}

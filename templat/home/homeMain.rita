@@ -1,0 +1,34 @@
+{{define "home"}}
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	{{template "cdn" .}}
+	{{template "homeStyle"}}
+	{{template "placeholderHome"}}
+</head>
+<body>
+<div id="_js_root_animation">
+</div>
+<div id="_head">
+</div>
+{{template "homeHead"}}
+<div id="_head_root_animation">
+</div>
+<div id="_chat_container">
+</div>
+{{template "chatContainerStyle"}}
+<div id="_body">
+	<div id="_bdy_part_1">
+	</div>
+	{{template "homeBodyPartOne"}}
+	<div id="_bdy_part_2">
+	</div>
+	{{template "homeBodyPartTwo"}}
+	<div id="_bdy_part_3">
+	</div>
+	{{template "homeBodyPartThree"}}
+</div>
+</body>
+</html>
+{{end}}
