@@ -167,7 +167,7 @@ func main() {
       log.Fatal("$PORT must be set")
     }
     r := mux.NewRouter()
-    r.HandleFunc("/", serveMainTemplate)
+    r.HandleFunc("/dream", serveMainTemplate)
     r.HandleFunc("/login", serveTemplate)
     r.HandleFunc("/signup", serveSignupTemplate)
     r.HandleFunc("/any", serveAnyTemplate)
