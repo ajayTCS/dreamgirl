@@ -24,7 +24,7 @@
 	{{template "homeBodyPartOne"}}
 	<div id="_bdy_part_2">
 	</div>
-
+	{{template "homeBodyPartTwo"}}
 	<div id="_bdy_part_3">
 	</div>
 	{{template "homeBodyPartThree"}}
