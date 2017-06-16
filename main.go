@@ -90,7 +90,6 @@ func serveMainTemplate(w http.ResponseWriter,r *http.Request)  {
   sb := filepath.Join("templat", "/home/homeBody.rita")
   sbOne := filepath.Join("templat", "/home/homeBodyPartOne.rita")
   sbThree := filepath.Join("templat", "/home/homeBodyPartThree.rita")
-  //sn:= filepath.Join("templates", "/signup/verify.rita")
   pl:= filepath.Join("templat", "/home/placeholderHome.rita")
   chst := filepath.Join("templat", "/home/chatContainerStyle.rita")
   t, err:= template.ParseFiles(fp,cd,st,sh,pl,sb,sbOne,sbThree,chst)
@@ -100,7 +99,7 @@ func serveMainTemplate(w http.ResponseWriter,r *http.Request)  {
   l:=make([]string,0)
   bn:=Global{cdn:&l}
   bn.setGlobals("https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react.js","https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react-dom.js","https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js","https://cdnjs.cloudflare.com/ajax/libs/rxjs/5.4.0/Rx.min.js")
-  mnb:=bn.getGlobals();
+  mnb:=bn.getGlobals()
   w.Header().Set("Content-Type", "text/html")
   w.Header().Set("charset", "utf-8")
   w.Header().Set("Access-Control-Allow-Origin", "*")
