@@ -135,9 +135,9 @@ func serveAnyTemplate(w http.ResponseWriter, r *http.Request) {
 }
 
 func serveMyLinedFaceTemplate(w http.ResponseWriter, r *http.Request) {
-    s1:="Match (ee:Rita)-[:LINKED]-(ff) where ee.email ='"
+    s1:="Match (ee:Rita)-[:LINKED]-(ff:Rita) where ee.email ='"
     b:="9831296420"
-    s2:="' return collect([ff.name,ff.email]) as all"
+    s2:="' with ff optional Match (ff)-[:HAS_MANDATORY_DP]->(gg:ProfilePic) return collect([ff.name,ff.email,gg.title]) as all"
     s12 := fmt.Sprint(s1,b,s2)
     fmt.Println(s12)
     driver := bolt.NewDriver()
