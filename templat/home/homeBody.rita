@@ -11,7 +11,7 @@
 			evt.stopPropagation();
 
 		})
-		
+
 
 
 
@@ -53,7 +53,7 @@
 
 
 		const suggestionAbMusic={width:"100%",height:"400px",position:"relative",zIndex:"5",backgroundColor:"#f5f8fa",overflowY:"scroll"};
-		const songSuggestTextStyle={width:"99%",marginBottom:"10px",backgroundColor:"white",minHeight:"40px",display:"flex",justifyContent:"center",alignItems:"center",border:"1px solid #e6ecf0",borderRadius:"4px"};
+		const songSuggestTextStyle={width:"99%",marginBottom:"10px",backgroundColor:"white",minHeight:"40px",display:"flex",justifyContent:"center",alignItems:"center",border:"1px solid #e6ecf0",borderRadius:"4px",cursor:"pointer"};
 		const spinnerFlexCont={width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"};
 		class SuggestionOfMusic extends React.Component {
 			constructor(props) {
@@ -62,6 +62,26 @@
 					inputArr:this.props.Mapper
 				};
 				this.componentWillReceiveProps=this.componentWillReceiveProps.bind(this);
+				this._peace_be_upon_muhammad=this._peace_be_upon_muhammad.bind(this);
+			}
+			_peace_be_upon_muhammad(evt){
+				let i=JSON.parse(evt.target.lastChild.value).id;
+				var event = new CustomEvent(
+					"iiffrraammee",
+						{
+							detail: {
+								message: i,
+								time: new Date(),
+							},
+							bubbles: true,
+							cancelable: true
+						}
+					);
+					window.dispatchEvent(event)
+				//document.getElementById('_single_iframe').src+= "&autoplay=1";
+				//evt.preventDefault();
+				//evt.stopPropagation();
+				//document.getElementById('_single_iframe').src="'https://www.youtube.com/embed/"+JSON.parse(evt.target.lastChild.value).id+"'";
 			}
 			componentWillReceiveProps(newProps){
 				this.setState({
@@ -75,7 +95,8 @@
 						this.state.inputArr.length==0?(<div style={spinnerFlexCont}><Spinner /></div>):(
 							this.state.inputArr.map( (a,b) => {
 								return (
-									<div key={b} style={songSuggestTextStyle}>{a}
+									<div key={b} style={songSuggestTextStyle} onClick={this._peace_be_upon_muhammad}>{a.title}
+										<input type="hidden" value={JSON.stringify(a)} />
 									</div>
 								)
 							} )
@@ -86,10 +107,35 @@
 			}
 		}
 
+
+		const actVideoPlayer={width:"99%",height:"100%"};
+
+		class MoreIframe extends React.Component {
+			constructor(props){
+				super(props);
+				this.state = {
+					rc:this.props.Rc
+				};
+				this.componentWillReceiveProps=this.componentWillReceiveProps.bind(this);
+			}
+			componentWillReceiveProps(nextProps){
+				this.setState({
+					rc:nextProps.Rc
+				})
+			}
+			render(){
+				return (
+					<iframe style={actVideoPlayer} id="_single_iframe"  src={this.state.rc}></iframe>
+				);
+			}
+		}
+
+
+
 		const myEnjoymentVideoBox={width:"100%",height:"100%"};
 		const videoContainer={width:"100%",height:"300px"};
 		const videoContainerAfter={width:"100%",height:"50px"};
-		const actVideoPlayer={width:"100%",height:"100%"};
+
 		const inputTypeSerchMusic={width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"};
 		const actInputBox={width:"99%",height:"30px",textIndent:"10px",border:"1px solid #e6ecf0"};
 		const searchSuggestionMusic={width:"100%"};
@@ -99,29 +145,44 @@
 				this.state = {
 					searchBoxText:"",
 					inputArr:[],
-					maybeDangerous:false
+					maybeDangerous:false,
+					urliuri:"eLFW---YSWE",
+					autoplay:1
 				};
 				this._ms="";
 				this._mm_videoSearchBoxChng=this._mm_videoSearchBoxChng.bind(this);
 				this._mm_ipt_serch_music_bluri=this._mm_ipt_serch_music_bluri.bind(this);
 				this.componentDidMount=this.componentDidMount.bind(this);
+				this.componentWillMount=this.componentWillMount.bind(this);
+			}
+			componentWillMount(){
+				var that=this;
+				window.addEventListener("iiffrraammee",(evt) => {
+					that.setState({
+						urliuri:evt.detail.message
+					})
+				},true)
 			}
 			componentDidMount(){
 				var inp=this.refs._mm_large_textarea;
 				var that=this;
+
+				//ReactDOM.render(<MoreIframe Rc={"''https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1''"} />,document.getElementById('_more_iframe'))
 				if(!this.state.maybeDangerous){
 					const source = Rx.Observable.fromEvent(inp, 'input');
 					const sour1=source.debounceTime(500).map(evt=>evt.target.value);
 					const subscribe = sour1.subscribe((val) => {
-						Rx.Observable.ajax({ url: '/any', responseType: 'json',method:'GET'}).map(data=>data.response)
+						console.log("valllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll");
+						console.log(val);
+						Rx.Observable.ajax({ url: `/any/${val}`, responseType: 'json',method:'GET'}).map(data=>data.response.all)
 	  				.subscribe(
 	    			function (data) {
-	      			console.log(data.Content);
+	      			console.log(data);
 							that.setState({
-								inputArr:data.Content
+								inputArr:data
 							});
 							if (!that.state.maybeDangerous) {
-								ReactDOM.render(<SuggestionOfMusic Mapper={data.Content} />,document.getElementById('_songs_search_suggestion'));
+								ReactDOM.render(<SuggestionOfMusic Mapper={data} />,document.getElementById('_songs_search_suggestion'));
 							}
 
 	    			},
@@ -131,7 +192,6 @@
 	  			);
 					});
 				}
-
 			}
 			_mm_ipt_serch_music_bluri(evt){
 				evt.preventDefault();
@@ -163,12 +223,12 @@
 			render(){
 				return (
 					<div style={myEnjoymentVideoBox}>
-						<div style={videoContainer}>
-							<video src="har har mahadeb.mp4" style={actVideoPlayer} controls="true"></video>
+						<div id="_more_iframe" style={videoContainer}>
+							<iframe id="existing-iframe-example" src={"https:\/\/www.youtube.com\/embed\/"+this.state.urliuri+"?enablejsapi=1"} style={actVideoPlayer}></iframe>
 						</div>
 						<div style={videoContainerAfter}>
 							<div style={inputTypeSerchMusic}>
-								<input ref="_mm_large_textarea" type="text" style={actInputBox} placeholder="search songs" value={this.state.searchBoxText} onChange={this._mm_videoSearchBoxChng} onBlur={this._mm_ipt_serch_music_bluri} />
+								<input ref="_mm_large_textarea" type="search" style={actInputBox} placeholder="search songs" value={this.state.searchBoxText} onChange={this._mm_videoSearchBoxChng} onBlur={this._mm_ipt_serch_music_bluri} />
 							</div>
 							<div id="_songs_search_suggestion" style={searchSuggestionMusic}>
 
@@ -283,6 +343,9 @@
 					scrH:"810px"
 				});
 			}
+			componentDidMount(){
+
+			}
 			render(){
 				return (
 					<div style={homeBodyMainStyle}>
@@ -327,5 +390,7 @@
 			}
 		}
 		ReactDOM.render(<HomeBodyPartTwo />,document.getElementById('_bdy_part_2'));
+
+
 	</script>
 {{end}}

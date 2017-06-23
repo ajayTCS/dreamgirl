@@ -8,13 +8,35 @@
 		const home_p_three_white={width:"70%",height:"100%",backgroundColor:"white",border:"1px solid lightgrey",float:"right"};
 		const dpStyle={width:"100%",height:"250px"};
 		const dpImgStyle={width:"100%",height:"100%"};
+		const navigationConstStyle={width:"100%",height:"150px"};
+		const contNissaanArr={width:"100%",height:"50px"};
+		const mereNissaann={width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"};
+		const myUl={listStyleType:"none"};
+		const clickableListOnMainPage={width:"100%",height:"30px",display:"flex",alignItems:"center"};
+		const mmActFontingCursor={cursor:"pointer"};
+		const mmMyPlayListStyle={width:"100%",height:"50px"};
+		const mereNissaann_x={width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"};
 		class HomeBodyPartOne extends React.Component {
 			constructor(props){
 				super(props);
 				this.state = {
 					logMsg:"Sign up to Linkedface",
-					rc:"/ajay.jpg"
+					rc:"/ajay.jpg",
+					linkOf:["My Social face","My Professional face","My Consumer face","My Writer face","My Dating face"],
+					name:"Ajay Jha"
 				};
+				this._mm_toolkit_fonting_enter=this._mm_toolkit_fonting_enter.bind(this);
+				this._mm_toolkit_fonting_out=this._mm_toolkit_fonting_out.bind(this);
+			}
+			_mm_toolkit_fonting_out(evt){
+				evt.preventDefault();
+				evt.stopPropagation();
+				evt.target.style.color="black";
+			}
+			_mm_toolkit_fonting_enter(evt){
+				evt.preventDefault();
+				evt.stopPropagation();
+				evt.target.style.color="lightgrey";
 			}
 			render(){
 				return (
@@ -22,6 +44,29 @@
 						<div style={home_p_three_white}>
 							<div style={dpStyle}>
 								<img src={this.state.rc} style={dpImgStyle} />
+							</div>
+							<div style={contNissaanArr}>
+								<div style={mereNissaann}>
+									<font size={3} color="black" style={mmActFontingCursor}>{this.state.name}</font>
+								</div>
+							</div>
+							<div style={navigationConstStyle}>
+								<ul style={myUl}>
+								{
+									this.state.linkOf.map( (a,b) => {
+										return (
+											<li key={b} style={clickableListOnMainPage}><font size={3} color="black" style={mmActFontingCursor} onMouseEnter={this._mm_toolkit_fonting_enter} onMouseOut={this._mm_toolkit_fonting_out}>{a}</font></li>
+										)
+									} )
+								}
+								</ul>
+							</div>
+							<div style={mmMyPlayListStyle}>
+								<div style={mereNissaann_x}>
+									<font size={3} color="black" style={mmActFontingCursor}>My Playlist</font>
+								</div>
+							</div>
+							<div id="_mm_playlist_hou_bachcha">
 							</div>
 						</div>
 					</div>

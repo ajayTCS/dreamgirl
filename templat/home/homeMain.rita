@@ -3,7 +3,7 @@
 <html>
 <head>
 	<title></title>
-	{{template "cdn" .}}
+	{{template "cdn" .Cdn}}
 	{{template "homeStyle"}}
 	{{template "placeholderHome"}}
 </head>
@@ -27,7 +27,7 @@
 	{{template "homeBodyPartTwo"}}
 	<div id="_bdy_part_3">
 	</div>
-	{{template "homeBodyPartThree"}}
+	{{template "homeBodyPartThree" .Linked}}
 </div>
 </body>
 </html>

@@ -10,7 +10,7 @@
 		const chtBxFoot={width:"100%",height:"35px",backgroundColor:"white",border:"1px solid #e6ecf0"};
 		const flexChatFoot={width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"};
 		const msgBoxActualIp={width:"75%",height:"25px",textIndent:"10px",border:"1px solid #e6ecf0"};
-		const sendBtMessage={backgroundColor:"transparent",border:"1px solid #e6ecf0"};
+		const sendBtMessage={backgroundColor:"transparent",border:"1px solid #e6ecf0",cursor:"pointer"};
 		const flexChatHead={width:"100%",height:"100%",display:"flex",justifyContent:"flex-end",alignItems:"center"};
 		const fontingMinimise={marginRight:"10px",cursor:"pointer"};
 		const fontingClose={cursor:"pointer"};
@@ -19,16 +19,165 @@
 				super(props);
 				this.state = {
 					moto:this.props.pr,
-					msgBoxVal:""
+					msgBoxVal:"",
+					loler:[],
+					mapOption:true
 				};
 				this._fonting_minimise_clk=this._fonting_minimise_clk.bind(this);
 				this._fonting_close_clk=this._fonting_close_clk.bind(this);
 				this._msg_box_change=this._msg_box_change.bind(this);
 				this._send_msg_ajax=this._send_msg_ajax.bind(this);
+				this.componentDidMount=this.componentDidMount.bind(this);
+				this.componentWillReceiveProps=this.componentWillReceiveProps.bind(this);
+				this.componentDidUpdate=this.componentDidUpdate.bind(this);
+			}
+			componentWillReceiveProps(nextProps){
+				var that=this;
+				console.log("gently tears falling");
+				console.log(nextProps);
+				console.log(this.props);
+				var dbNissan = openDatabase('rita', '1.0', 'Rita DB', 2 * 1024 * 1024);
+				dbNissan.transaction(function (tx) {
+					 tx.executeSql(`SELECT * FROM MESSAGECONTENTMY WHERE toA=${JSON.parse(nextProps.pr).id}`, [], function (tx, results) {
+							console.log(results.rows.map);
+							var arx=[];
+							for(var pxc of results.rows){
+								console.log("lojjjjjjjjjjjj");
+								console.log(that.state.moto);
+								console.log(pxc.toA);
+								if(JSON.parse(nextProps.pr).id==pxc.toA){
+									arx.push({to:pxc.toA,from:pxc.fromA,value:pxc.contentA})
+								}
+
+							}
+							console.log("arrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+							console.log(arx);
+							let more
+							that.setState({
+								loler:arx
+							})
+					 }, null);
+
+				});
+				console.log(that.state.loler);
+			}
+			componentWillMount(){
+
+				/*var that=this;
+				var db8 = openDatabase('rita', '1.0', 'Rita DB', 2 * 1024 * 1024);
+				db8.transaction(function (tx) {
+					 tx.executeSql(`SELECT * FROM MESSAGECONTENTMY WHERE toA=${JSON.parse(that.state.moto).id}`, [], function (tx, results) {
+							console.log(results.rows.map);
+							var arx=[];
+							for(const pxc of results.rows){
+								arx.push({to:pxc.toA,from:pxc.fromA,value:pxc.contentA})
+							}
+							that.setState({
+								loler:arx
+							})
+					 }, null);
+
+				});*/
+			}
+			componentDidUpdate(prevProps, prevState){
+				console.log("componentDidUpdate updatinggggggg");
+				console.log(prevProps);
+				console.log(prevState);
+				/*var that=this;
+				var db8 = openDatabase('rita', '1.0', 'Rita DB', 2 * 1024 * 1024);
+				db8.transaction(function (tx) {
+					 tx.executeSql(`SELECT * FROM MESSAGECONTENTMY WHERE toA=${JSON.parse(that.state.moto).id}`, [], function (tx, results) {
+							console.log(results.rows.map);
+							var arx=[];
+							for(const pxc of results.rows){
+								arx.push({to:pxc.toA,from:pxc.fromA,value:pxc.contentA})
+							}
+							that.setState({
+								loler:arx
+							})
+					 }, null);
+
+				});*/
+			}
+			componentDidMount(){
+				var that=this;
+				var db8 = openDatabase('rita', '1.0', 'Rita DB', 2 * 1024 * 1024);
+				db8.transaction(function (tx) {
+					 tx.executeSql(`SELECT * FROM MESSAGECONTENTMY WHERE toA=${JSON.parse(that.state.moto).id}`, [], function (tx, results) {
+							console.log(results.rows.map);
+							var arx=[];
+							for(var pxc of results.rows){
+								console.log("lojjjjjjjjjjjj");
+								console.log(that.state.moto);
+								console.log(pxc.toA);
+								if(JSON.parse(that.state.moto).id==pxc.toA){
+									arx.push({to:pxc.toA,from:pxc.fromA,value:pxc.contentA})
+								}
+
+							}
+							that.setState({
+								loler:arx
+							})
+					 }, null);
+
+				});
+
+
+
+
+				/*var db23 = openDatabase('rita', '1.0', 'Rita DB', 2 * 1024 * 1024);
+				db23.transaction(function (tx) {
+					 tx.executeSql('SELECT * FROM CHATFLAGALL', [], function (tx, results) {
+							/*let lokloinasa=new Map();
+							for(const pl of results.rows){
+									lokloinasa.set(pl.id,{id:pl.id,name:pl.name,image:pl.image})
+							}
+							var event = new CustomEvent(
+								"chat_head_own_child",
+								{
+									detail: lokloinasa,
+										bubbles: true,
+										cancelable: true
+									}
+								);
+								window.dispatchEvent(event);
+
+								for(const pl of results.rows){
+										for (const kl of window.__display_active_chatter) {
+											console.log(pl.id);
+											console.log(kl);
+											if(pl.id==kl[0]){
+												console.log("pilling"+kl[0]);
+												//ReactDOM.render(<SudoChatBox M={window.__display_active_chatter} />,document.getElementById('_chat_container'))
+												//ReactDOM.render(<ChatBoxBodyHidden pr={JSON.stringify({id:kl[0],name:kl[1].name,image:kl[1].image})} />,document.getElementById(`${kl[0]}`))
+												console.log(document.getElementById(`${kl[0]}`));
+												if(that.state.mapOption){
+													document.getElementById(`${kl[0]}`).getElementsByClassName('_fonting_minimise')[0].click();
+													document.getElementById(`${kl[0]}`).parentElement.getElementsByClassName('_fonting_maximise')[0].click();
+												}
+											}else {
+												console.log("elseieieieieeiieieeiie");
+											}
+										}
+								}
+					 }, null);
+
+				});*/
 			}
 			_send_msg_ajax(evt){
 				evt.preventDefault();
 				evt.stopPropagation();
+				var that=this;
+				let cx=evt.target.parentElement.lastChild.value;
+				console.log("styling rehnuma");
+				console.log(cx);
+				console.log(that.state.msgBoxVal);
+				var db7 = openDatabase('rita', '1.0', 'Rita DB', 2 * 1024 * 1024);
+
+				db7.transaction(function (tx) {
+					 tx.executeSql('CREATE TABLE IF NOT EXISTS MESSAGECONTENTMY (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, toA, fromA, contentA)');
+					 tx.executeSql(("INSERT INTO MESSAGECONTENTMY (toA, fromA, contentA) VALUES (?, ?, ?);"),[JSON.parse(cx).id,"ajay",that.state.msgBoxVal]);
+				});
 			}
 			_msg_box_change(evt){
 				evt.preventDefault();
@@ -43,7 +192,7 @@
 				var that=this;
 				console.log("deleting following");
 				console.log(JSON.parse(that.state.moto).name);
-				ReactDOM.unmountComponentAtNode(evt.target.parentElement.parentElement.parentElement.parentElement)
+				ReactDOM.unmountComponentAtNode(document.getElementById(JSON.parse(that.state.moto).id))
 				var db = openDatabase('rita', '1.0', 'Rita DB', 2 * 1024 * 1024);
 
 				db.transaction(function (tx) {
@@ -54,7 +203,7 @@
 					 tx.executeSql('SELECT * FROM MESSAGES', [], function (tx, results) {
 							console.log(results.rows.map);
 							let mbvcghd=new Map();
-							for(const p of results.rows){
+							for(var p of results.rows){
 								mbvcghd.set(p.id,{name:p.name,image:p.image})
 							}
 							console.log(mbvcghd);
@@ -76,6 +225,14 @@
 				evt.preventDefault();
 				evt.stopPropagation();
 				//console.log(this.state.);
+				var that=this;
+				var db = openDatabase('rita', '1.0', 'Rita DB', 2 * 1024 * 1024);
+
+				db.transaction(function (tx) {
+
+					 //tx.executeSql(`DELETE FROM MESSAGES WHERE id=${JSON.parse(cvz).id}`);
+					 tx.executeSql(`DELETE FROM CHATFLAGALL WHERE id=${JSON.parse(that.state.moto).id}`);
+				});
 				ReactDOM.unmountComponentAtNode(evt.target.parentElement.parentElement.parentElement.parentElement)
 			}
 			render(){
@@ -83,19 +240,34 @@
 					<div style={mgTopChatBoxScrolledTop}>
 						<div style={chtBxHead}>
 						<div style={flexChatHead}>
-							<font size={5} style={fontingMinimise} onClick={this._fonting_minimise_clk}>&#10134;</font>
-							<font size={5} style={fontingClose} onClick={this._fonting_close_clk}>&#9747;</font>
+							<font className="_fonting_minimise" size={5} style={fontingMinimise} onClick={this._fonting_minimise_clk}>&#10134;</font>
+							{/*<font size={5} style={fontingClose} onClick={this._fonting_close_clk}>&#9747;</font>*/}
 						</div>
 						</div>
 						<div style={chtBxBody}>
 							{
-								JSON.parse(this.state.moto).name
+								this.state.loler.map( (a,b) => {
+										console.log(JSON.parse(this.state.moto).id);
+										console.log(a);
+									if(true){
+										return (
+											<div key={b}>
+												{
+													a.value
+												}
+											</div>
+										)
+									}else {
+										console.log("mapper else each message");
+									}
+								} )
 							}
 						</div>
 						<div style={chtBxFoot}>
 							<div style={flexChatFoot}>
 								<input type="text" style={msgBoxActualIp} placeholder="type message" onChange={this._msg_box_change} />
 								<input type="button" style={sendBtMessage} value="send" onClick={this._send_msg_ajax} />
+								<input type="hidden" value={this.state.moto} />
 							</div>
 						</div>
 					</div>
@@ -108,6 +280,8 @@
 		const my_divi_co_st={width:"99%",height:"100%",backgroundColor:"white",border:"1px solid #e6ecf0"};
 		const my_divi_co_st_fc={width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"};
 		const my_divi_co_st_fc_ob={cursor:"pointer"};
+		const afterMountChatClickableImage={width:"30px",height:"30px",marginRight:"10px",borderRadius:"50%"};
+		const fontingClose_sclickable={marginLeft:"100px",cursor:"pointer"}
 		class SudoChatBox extends React.Component {
 			constructor(props) {
 				super(props);
@@ -117,18 +291,176 @@
 				this.componentWillMount=this.componentWillMount.bind(this);
 				this.componentWillReceiveProps=this.componentWillReceiveProps.bind(this);
 				this._fontingIndiChatBox=this._fontingIndiChatBox.bind(this);
+				this._fonting_close_clk_sclickable=this._fonting_close_clk_sclickable.bind(this);
+				this.componentDidMount=this.componentDidMount.bind(this);
+			}
+			componentDidMount(){
+				var that=this;
+				let oor=this.state.psudoChatArray;
+				var db23 = openDatabase('rita', '1.0', 'Rita DB', 2 * 1024 * 1024);
+				db23.transaction(function (tx) {
+					 tx.executeSql('SELECT * FROM CHATFLAGALL', [], function (tx, results) {
+							/*let lokloinasa=new Map();
+							for(const pl of results.rows){
+									lokloinasa.set(pl.id,{id:pl.id,name:pl.name,image:pl.image})
+							}
+							var event = new CustomEvent(
+								"chat_head_own_child",
+								{
+									detail: lokloinasa,
+										bubbles: true,
+										cancelable: true
+									}
+								);
+								window.dispatchEvent(event);*/
+								// window.__display_active_chatter
+								for(var pl of results.rows){
+										for (var kl of oor) {
+											console.log(pl.id);
+											console.log(kl);
+											if(pl.id==kl[0]){
+												console.log("pilling"+kl[0]);
+												//ReactDOM.render(<SudoChatBox M={window.__display_active_chatter} />,document.getElementById('_chat_container'))
+												//ReactDOM.render(<ChatBoxBodyHidden pr={JSON.stringify({id:kl[0],name:kl[1].name,image:kl[1].image})} />,document.getElementById(`${kl[0]}`))
+												console.log(document.getElementById(`${kl[0]}`));
+												if(document.getElementById(`${kl[0]}`).getElementsByClassName('_fonting_minimise')[0]!=undefined)
+												{
+
+												}
+												//document.getElementById(`${kl[0]}`).getElementsByClassName('_fonting_minimise')[0].click();
+												//ReactDOM.unmountComponentAtNode(document.getElementById(`${kl[0]}`));
+												document.getElementById(`${kl[0]}`).parentElement.getElementsByClassName('_fonting_maximise')[0].click();
+
+											}
+										}
+								}
+					 }, null);
+
+				});
+			}
+			_fonting_close_clk_sclickable(evt){
+				evt.preventDefault();
+				evt.stopPropagation();
+				var that=this;
+				let cvz=evt.target.parentElement.lastChild.value;
+				console.log("deleting following");
+				//console.log(JSON.parse(that.state.moto).name);
+				//ReactDOM.unmountComponentAtNode(document.getElementById(JSON.parse(cvz).id))
+				var db = openDatabase('rita', '1.0', 'Rita DB', 2 * 1024 * 1024);
+
+				db.transaction(function (tx) {
+					 tx.executeSql(`DELETE FROM MESSAGES WHERE id=${JSON.parse(cvz).id}`);
+					 tx.executeSql(`DELETE FROM CHATFLAGALL WHERE id=${JSON.parse(cvz).id}`);
+				});
+				var dbAccount = openDatabase('rita', '1.0', 'Rita DB', 2 * 1024 * 1024);
+				dbAccount.transaction(function (tx) {
+					 tx.executeSql('SELECT * FROM MESSAGES', [], function (tx, results) {
+							console.log(results.rows.map);
+							let mbvcghdof=new Map();
+							for(var p of results.rows){
+								mbvcghdof.set(p.id,{id:p.id,name:p.name,image:p.image,extra:p.id})
+							}
+							console.log(mbvcghdof);
+							var event = new CustomEvent(
+								"chat_head",
+								{
+									detail: mbvcghdof,
+										bubbles: true,
+										cancelable: true
+									}
+								);
+								window.dispatchEvent(event);
+					 }, null);
+
+				});
+				/*var db2 = openDatabase('rita', '1.0', 'Rita DB', 2 * 1024 * 1024);
+				db2.transaction(function (tx) {
+					 tx.executeSql('SELECT * FROM CHATFLAGALL', [], function (tx, results) {
+							let lokloinasa=new Map();
+							for(const p of results.rows){
+									lokloinasa.set(p.id,{id:p.id,name:p.name,image:p.image})
+							}
+							var event = new CustomEvent(
+								"chat_head_own_child",
+								{
+									detail: lokloinasa,
+										bubbles: true,
+										cancelable: true
+									}
+								);
+								window.dispatchEvent(event);
+					 }, null);
+
+				});*/
 			}
 			_fontingIndiChatBox(evt){
 				evt.preventDefault();
 				evt.stopPropagation();
 				let cv=evt.target.parentElement.lastChild.value;
 				console.log(cv);
-				ReactDOM.render(<ChatBoxBodyHidden pr={cv} />,evt.target.parentElement.parentElement.parentElement.firstChild)
+
+
+				var db = openDatabase('rita', '1.0', 'Rita DB', 2 * 1024 * 1024);
+
+				db.transaction(function (tx) {
+					 tx.executeSql('CREATE TABLE IF NOT EXISTS CHATFLAGALL (id unique,name,image )');
+					 tx.executeSql(`INSERT INTO CHATFLAGALL (id, name, image) VALUES (${JSON.parse(cv).id}, "${JSON.parse(cv).name}","${JSON.parse(cv).image}")`);
+				});
+
+
+				// ref   evt.target.parentElement.parentElement.parentElement.firstChild     next line element
+				ReactDOM.render(<ChatBoxBodyHidden pr={cv} />,document.getElementById(JSON.parse(cv).id))
 			}
 			componentWillReceiveProps(nextProps){
 				this.setState({
 					psudoChatArray:nextProps.M
 				})
+				console.log("main hun na baby saath tere ");
+				console.log(this.state.psudoChatArray);
+				console.log(nextProps.M);
+				console.log("main hun na baby saath tere ");
+
+				let oor=this.state.psudoChatArray;
+				var db254 = openDatabase('rita', '1.0', 'Rita DB', 2 * 1024 * 1024);
+				db254.transaction(function (tx) {
+					 tx.executeSql('SELECT * FROM CHATFLAGALL', [], function (tx, results) {
+							/*let lokloinasa=new Map();
+							for(const pl of results.rows){
+									lokloinasa.set(pl.id,{id:pl.id,name:pl.name,image:pl.image})
+							}
+							var event = new CustomEvent(
+								"chat_head_own_child",
+								{
+									detail: lokloinasa,
+										bubbles: true,
+										cancelable: true
+									}
+								);
+								window.dispatchEvent(event);*/
+								// window.__display_active_chatter
+								for(var pl of results.rows){
+										for (var kl of oor) {
+											console.log(pl.id);
+											console.log(kl);
+											if(pl.id==kl[0]){
+												console.log("pilling"+kl[0]);
+												//ReactDOM.render(<SudoChatBox M={window.__display_active_chatter} />,document.getElementById('_chat_container'))
+												//ReactDOM.render(<ChatBoxBodyHidden pr={JSON.stringify({id:kl[0],name:kl[1].name,image:kl[1].image})} />,document.getElementById(`${kl[0]}`))
+												console.log(document.getElementById(`${kl[0]}`));
+												if(document.getElementById(`${kl[0]}`).getElementsByClassName('_fonting_minimise')[0]!=undefined)
+												{
+
+												}
+												//document.getElementById(`${kl[0]}`).getElementsByClassName('_fonting_minimise')[0].click();
+												//ReactDOM.unmountComponentAtNode(document.getElementById(`${kl[0]}`));
+												document.getElementById(`${kl[0]}`).parentElement.getElementsByClassName('_fonting_maximise')[0].click();
+
+											}
+										}
+								}
+					 }, null);
+
+				});
 			}
 			componentWillMount(){
 
@@ -137,7 +469,7 @@
 				var st=[];
 				var ctr=0;
 				this.state.psudoChatArray.forEach( (a,b) => {
-					st.push({name:a.name,id:b,image:a.image});
+					st.push({name:a.name,id:a.id,image:a.image});
 					ctr=ctr+1;
 				} )
 				console.log(st);
@@ -147,11 +479,11 @@
 										st.map( (a,b)=>{
 											return (
 												<div key={b} style={indiChatHeadClickable}>
-													<div>
+													<div id={a.id} className="_the_unknown_girl">
 													</div>
 													<div style={my_divi_co_st}>
 														<div style={my_divi_co_st_fc}>
-															<font style={my_divi_co_st_fc_ob} size={4} onClick={this._fontingIndiChatBox}>{a.name}</font><input type="hidden" value={JSON.stringify(a)} />
+															<img src={a.image} style={afterMountChatClickableImage} /><font className="_fonting_maximise" style={my_divi_co_st_fc_ob} size={4} onClick={this._fontingIndiChatBox}>{a.name}</font><font size={5} style={fontingClose_sclickable} onClick={this._fonting_close_clk_sclickable}>&#9747;</font><input type="hidden" value={JSON.stringify(a)} />
 														</div>
 													</div>
 												</div>
@@ -170,13 +502,18 @@
 		const partThreeLinkedFaces={width:"100%",height:"900px",overflowY:"scroll"};
 		const mlMyLinkFSup={width:"100%",height:"40px",display:"flex",justifyContent:"center",alignItems:"center",marginBottom:"20px"}
 		const myLinkefaceUI={width:"99%",height:"30px",display:"flex",justifyContent:"flex-start",alignItems:"center",marginBottom:"10px",border:"1px solid #e6ecf0",backgroundColor:"white",cursor:"pointer"};
-		const myImgStyleOfLogoFacesLinked={width:"30px",height:"30px",marginRight:"20px",marginLeft:"30px",borderRadius:"50%"}
+		const myImgStyleOfLogoFacesLinked={width:"30px",height:"30px",marginRight:"20px",marginLeft:"30px",borderRadius:"50%"};
+		//var th=[
+
+
 		class HomeBodyPartThree extends React.Component {
 			constructor(props){
 				super(props);
 				this.state = {
-					faceMapper:[]
-				};
+					faceMapper:[
+						{{range $i,$a:= .}}[{{range $c,$b:= $a}}{{$b}}{{ $length := len $b }}{{$l:=decreased $length}}{{if lt $c $l}},{{end}}{{end}}],{{end}}
+					]
+					};
 				this.componentDidMount=this.componentDidMount.bind(this);
 				this._mm_faceClickOpenChat=this._mm_faceClickOpenChat.bind(this);
 				this.componentWillMount=this.componentWillMount.bind(this);
@@ -202,8 +539,8 @@
 					 tx.executeSql('SELECT * FROM MESSAGES', [], function (tx, results) {
 							console.log(results.rows.map);
 							let mbvcghd=new Map();
-							for(const p of results.rows){
-								mbvcghd.set(p.id,{name:p.name,image:p.image})
+							for(var p of results.rows){
+								mbvcghd.set(p.id,{id:p.id,name:p.name,image:p.image})
 							}
 							console.log(mbvcghd);
 							var event = new CustomEvent(
@@ -218,6 +555,28 @@
 					 }, null);
 
 				});
+
+
+				/*var db3 = openDatabase('rita', '1.0', 'Rita DB', 2 * 1024 * 1024);
+				db3.transaction(function (tx) {
+					 tx.executeSql('SELECT * FROM CHATFLAGALL', [], function (tx, results) {
+							let lokloinasa=new Map();
+							for(const q of results.rows){
+									lokloinasa.set(q.id,{id:q.id,name:q.name,image:q.image})
+							}
+							var event = new CustomEvent(
+								"chat_head_own_child",
+								{
+									detail: lokloinasa,
+										bubbles: true,
+										cancelable: true
+									}
+								);
+								window.dispatchEvent(event);
+					 }, null);
+
+				});*/
+
 
 				/*if (sessionStorage.psudoChatArray==undefined) {
 					//let st=JSON.parse(sessionStorage.psudoChatArray).chatArray;
@@ -259,16 +618,28 @@
 				window.addEventListener("chat_head",(evt) => {
 					console.log(evt.detail);
 					console.log("logged");
+					/*let ifferMaula=document.getElementsByClassName('_the_unknown_girl');
+					if(ifferMaula.length>0){
+						for (var pyas = 0; pyas < ifferMaula.length; pyas++) {
+							ReactDOM.unmountComponentAtNode(ifferMaula[pyas])
+						}
+					}*/
+
+
+
+
+
 					const sz=evt.detail.size;
 					var ctr=0;
-					const mps=new Map();
-					const mpsof=new Map();
+					var mps=new Map();
+					var mpsof=new Map();
 					evt.detail.forEach( (a,b) => {
 						mps.set(b,a);
 						ctr=ctr+1;
 						if(ctr>sz-4){
 							mpsof.set(b,a)
 						}
+
 					} )
 					window.__active_chater=mps;
 					window.__display_active_chatter=mpsof;
@@ -276,11 +647,21 @@
 					console.log(window.__active_chater);
 					console.log("test");
 					console.log(window.__display_active_chatter);
-					ReactDOM.render(<SudoChatBox M={window.__display_active_chatter} />,document.getElementById('_chat_container'))
-				},true)
+					ReactDOM.render(<SudoChatBox M={window.__display_active_chatter} />,document.getElementById('_chat_container'));
+
+				},true);
+
+				window.addEventListener("chat_head_own_child",(evt) => {
+					evt.detail.forEach( (a,b) => {
+						console.log("barak obama");
+						console.log(b);
+						console.log(a);
+						ReactDOM.render(<ChatBoxBodyHidden pr={JSON.stringify(a)} />,document.getElementById(`${a.id}`))
+					} )
+				},true);
 			}
 			componentDidMount(){
-				var that=this;
+				/*var that=this;
 				Rx.Observable.ajax({ url: '/myLinkedFaces', responseType: 'json',method:'GET'}).map(data=>data.response)
 				.subscribe(
 				function (data) {
@@ -292,7 +673,7 @@
 				function (error) {
 					console.log(error);
 				}
-				);
+			);*/
 
 
 			}

@@ -2,7 +2,7 @@
 <script type="text/babel">
 
 var getMyStyle=(a,b,c)=> {
-	return {width:a,height:b,marginTop:"55px",position:"fixed",marginLeft:c,backgroundColor:"#f5f8fa",border:"1px solid lightgrey"}
+	return {width:a,height:b,marginTop:"55px",position:"fixed",marginLeft:c,backgroundColor:"#f5f8fa",border:"1px solid lightgrey",zIndex:"20"}
 }
 class SuggestionPopupHead extends React.Component {
 	constructor(props) {
@@ -51,6 +51,17 @@ const spanningNotStyle={color:"red"};
 			};
 			this._mm_all_ser_opt_chng=this._mm_all_ser_opt_chng.bind(this);
 			this._clk_get_notification=this._clk_get_notification.bind(this);
+			this._message_as_notification=this._message_as_notification.bind(this);
+		}
+		_message_as_notification(evt){
+			evt.preventDefault();
+			evt.stopPropagation();
+			console.log("hi");
+			const mWnot="20%";
+			const ml=`${document.getElementById('_mm_get_u_one').clientWidth+document.getElementById('_mm_get_u_two').clientWidth+document.getElementById('_mm_get_u_three').clientWidth+20}px`;
+			console.log(ml);
+			ReactDOM.unmountComponentAtNode(document.getElementById('_head_root_animation'))
+			ReactDOM.render(<SuggestionPopupHead Ml={ml} W={mWnot} />,document.getElementById('_head_root_animation'))
 		}
 		_clk_get_notification(evt){
 			evt.preventDefault();
@@ -59,6 +70,7 @@ const spanningNotStyle={color:"red"};
 			const mWnot="20%";
 			const ml=`${document.getElementById('_mm_get_u_one').clientWidth+document.getElementById('_mm_get_u_two').clientWidth+document.getElementById('_mm_get_u_three').clientWidth-70}px`;
 			console.log(ml);
+			ReactDOM.unmountComponentAtNode(document.getElementById('_head_root_animation'))
 			ReactDOM.render(<SuggestionPopupHead Ml={ml} W={mWnot} />,document.getElementById('_head_root_animation'))
 		}
 		_mm_all_ser_opt_chng(evt){
@@ -115,7 +127,7 @@ const spanningNotStyle={color:"red"};
 							<div style={dflex_inner_other}>
 								<div style={flexTypeOverMore}>
 									{
-										this.state.newMess==0?(<img src={this.state.messImage} style={imgNotStyle} />):(<div style={flexTypeOverMore}><span style={spanningNotStyle}>{`+ ${this.state.newMess} `}</span><img src={this.state.messImage} style={imgNotStyle} /></div>)
+										this.state.newMess==0?(<img src={this.state.messImage} style={imgNotStyle} onClick={_this._message_as_notification} />):(<div style={flexTypeOverMore}><span style={spanningNotStyle}>{`+ ${this.state.newMess} `}</span><img src={this.state.messImage} style={imgNotStyle} onClick={this._message_as_notification} /></div>)
 									}
 								</div>
 							</div>
