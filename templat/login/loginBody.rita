@@ -34,8 +34,8 @@
 				super(props);
 				this.state = {
 					logMsg:"Log in to Linkedface",
-					emOphnVal:"",
-					pwdVal:"",
+					emOphnVal:localStorage.email?localStorage.email:"",
+					pwdVal:localStorage.password?localStorage.password:"",
 					fpDecoration:"none",
 					chkd:true,
 					innerSpanningEm:"",
@@ -56,9 +56,16 @@
 				top.location.href=`${top.location.href.split('/')[0]}/signup`;
 			}
 			_rem_me_chk_chng(evt){
+				if (evt.target.checked) {
+					localStorage.email = this.state.emOphnVal;
+					localStorage.password = this.state.pwdVal;
+				}else {
+					localStorage.email = undefined;
+					localStorage.password = undefined;
+				}
 				this.setState({
 					chkd:!this.state.chkd
-				})
+				});
 			}
 			_ok_clk(evt){
 				evt.preventDefault();
@@ -68,7 +75,7 @@
 				formData.append("email",this.state.emOphnVal)
 				formData.append("password",this.state.pwdVal)
 				console.log(ac)
-				var xhttp = new XMLHttpRequest();
+				/*var xhttp = new XMLHttpRequest();
 							xhttp.open("POST", "linkAuth", true);
 							xhttp.setRequestHeader('Content-Type','application/json');
 							xhttp.onreadystatechange = function(data){
@@ -77,11 +84,11 @@
 
     							}
 							};
-
-
-							let bvgh=JSON.stringify(ac)
 						xhttp.send(JSON.stringify(ac));
-						console.log(JSON.stringify(bvgh))
+						console.log(JSON.stringify(bvgh))*/
+						/*var xhttp = new XMLHttpRequest();
+									xhttp.open("GET", "redirect", true);
+								xhttp.send();*/
 			}
 			_underline_me(evt){
 				evt.preventDefault();
@@ -116,14 +123,15 @@
 			_em_o_phn_change(evt){
 				evt.preventDefault();
 				evt.stopPropagation();
+				evt.persist();
 				if(evt.target.value ==""){
 					this.setState({
-						innerSpanningEm:"what's your email ?",
+						innerSpanningEm:"what's your email or mobile ?",
 						emOphnVal:evt.target.value
 					});
-				}else if(!sEmail(evt.target.value)){
+				}else if(!sEmail(evt.target.value) && !sMobile(evt.target.value) ){
 					this.setState({
-						innerSpanningEm:"please enter a valid email",
+						innerSpanningEm:"please enter a valid email or mobile",
 						emOphnVal:evt.target.value
 					});
 				}else{
@@ -153,9 +161,9 @@
 												</code>
 											</div>
 										</div>
-										<div style={againInnerSt}>
+										<form method="POST" action="/linkAuth"><div style={againInnerSt}>
 											<div style={dFlexStyle}>
-												<input type="text" name="_em_o_phn" id="_em_o_phn" style={emOphnStyle} value={this.state.emOphnVal} placeholder="email or mobile" onChange={this._em_o_phn_change} />{(this.state.emOphnVal!="" && sEmail(this.state.emOphnVal))?(<span style={spanningHello_ok}>&#8730;</span>):(<span style={spanningHello}>{this.state.innerSpanningEm}</span>)}
+												<input type="text" name="_em_o_phn" id="_em_o_phn" style={emOphnStyle} value={this.state.emOphnVal} placeholder="email or mobile" onChange={this._em_o_phn_change} />{(this.state.emOphnVal!="" && sEmail(this.state.emOphnVal) || this.state.emOphnVal!="" && sMobile(this.state.emOphnVal) )?(<span style={spanningHello_ok}>&#8730;</span>):(<span style={spanningHello}>{this.state.innerSpanningEm}</span>)}
 											</div>
 										</div>
 										<div style={againInnerSt}>
@@ -164,7 +172,7 @@
 										<div style={againInnerSt}>
 											<div style={loginButtonContStyle}>
 												<div style={indiLoginBtContStyle}>
-													<input type="button" value="login" style={logBtStyle} onClick={this._ok_clk} />
+													<input type="submit" value="login" style={logBtStyle}  />
 												</div>
 												<div style={indiLoginBtContStyle}>
 													<div style={rememberMeStyle}>
@@ -183,7 +191,7 @@
 
 												</div>
 											</div>
-										</div>
+										</div></form>
 									</div>
 								</div>
 							</div>

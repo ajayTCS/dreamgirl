@@ -50,19 +50,258 @@
 				 			)
 				 		}
 				 	}
+		/*const abcStylePopup={width:"99%",height:"1240px",position:"absolute",zIndex:10,backgroundColor:"transparent"};
+		const popupPlaylistDf={width:"100%",height:"100%",display:"flex",justifyContent:"center"};
+		const actPlaylistQuestPopup={width:"400px",height:"400px",border:"1px solid #e6ecf0",marginTop:"150px"};
+		const playlistPopupHead={width:"100%",height:"40px",backgroundColor:"white",marginBottom:"10px"};
+		const playlistPopupBody={width:"100%",height:"340px",backgroundColor:"white"};
+		const closePlaylistPopupBefore={width:"70%",height:"100%",display:"inline",float:"left"};
+		const closePlaylistPopupAfter={width:"30%",height:"100%",display:"inline",float:"right"};
+		const dflexCloseBefore={width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"};
+		const dflexCloseAfter={width:"100%",height:"100%",display:"flex",justifyContent:"flex-end",alignItems:"center"};
+		const closingPopupFontwa={cursor:"pointer"};
+		const msgInformationToAddPlaylist={width:"100%",height:"40px",display:"flex",justifyContent:"center",alignItems:"center"};
+		const actPlaylistDataStyle={width:"100%",height:"260px",overflowY:"scroll"};
+		const updatePlaylistStyle={width:"100%",height:"40px"};
+		const createPlaylistButtonDadaji={width:"50%",height:"100%",display:"inline",float:"left"};
+		const updatePlaylistButtonDadaji={width:"50%",height:"100%",display:"inline",float:"right"};
+		const createPlaylistButtonDady={width:"99%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center",border:"1px solid #e6ecf0"};
+		const updatePlaylistButtonDady={width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"};
+		const closingPopupFontwaOf={cursor:"pointer"};
+		class PlaylistPopup extends React.Component {
+			constructor(props) {
+				super(props);
+				this.state = {
 
+				};
+				this.componentWillMount=this.componentWillMount.bind(this);
+				this.componentWillUnmount=this.componentWillUnmount.bind(this);
+				this._closing_playlist_popup_bhai=this._closing_playlist_popup_bhai.bind(this);
+			}
+			_closing_playlist_popup_bhai(evt){
+				ReactDOM.unmountComponentAtNode(document.getElementById('_js_root_animation'))
+			}
+			componentWillMount(){
+				var events = new CustomEvent(
+					"opacity",
+					{
+						detail: {
+							message: 0.2,
+							time: new Date(),
+					},
+					bubbles: true,
+					cancelable: true
+				}
+			 );
+			 window.dispatchEvent(events);
+			}
+			componentWillUnmount(){
+				var events = new CustomEvent(
+					"opacity",
+					{
+						detail: {
+							message: 1,
+							time: new Date(),
+					},
+					bubbles: true,
+					cancelable: true
+				}
+			 );
+			 window.dispatchEvent(events);
+			}
+			render(){
+				return (
+					<div style={abcStylePopup}>
+						<div style={popupPlaylistDf}>
+							<div style={actPlaylistQuestPopup}>
+								<div style={playlistPopupHead}>
+									<div style={closePlaylistPopupBefore}>
+										<div style={dflexCloseBefore}>
+											<font size={4}>My playlist</font>
+										</div>
+									</div>
+									<div style={closePlaylistPopupAfter}>
+										<div style={dflexCloseAfter}>
+											<font style={closingPopupFontwa} size={5} onClick={this._closing_playlist_popup_bhai}>&#9932;</font>
+										</div>
+									</div>
+								</div>
+								<div style={playlistPopupBody}>
+									<div style={msgInformationToAddPlaylist}>Please check the checkbox to add to the target playlist
+									</div>
+									<div style={actPlaylistDataStyle}>2
+									</div>
+									<div style={updatePlaylistStyle}>
+										<div style={createPlaylistButtonDadaji}>
+											<div style={createPlaylistButtonDady}>
+												<font style={closingPopupFontwaOf} size={5}>Create playlist</font>
+											</div>
+										</div>
+										<div style={updatePlaylistButtonDadaji}>
+											<div style={updatePlaylistButtonDady}>
+												<font style={closingPopupFontwaOf} size={5}>Update playlist</font>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				)
+			}
+		}*/
+
+		var zPopStyle=(marginL)=>{
+			return {width:"200px",height:"200px",zIndex:"20",position:"absolute",border:"1px solid #e6ecf0",marginLeft:marginL,marginTop:"60px",backgroundColor:"white",borderRadius:"4px"};
+		};
+		const addToPlaylistInnerSome={width:"100%",height:"30px"};
+		const flFloatOne={width:"20%",height:"100%",display:"inline",float:"left"};
+		const flFloatTwo={width:"79%",height:"100%",display:"inline",float:"right"};
+		const commonDisplayFlexSt={width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center",textAlign:"center"};
+		const commonDisplayFlexSt_text={width:"100%",height:"100%",display:"flex",justifyContent:"flex-start",alignItems:"center",textAlign:"center"};
+		const zPopSunOne={width:"100%",height:"170px",overflowY:"scroll"};
+		const zPopSunTwo={width:"100%",height:"30px",display:"flex",justifyContent:"center",alignItems:"center"};
+		const newPlaylistBtStyle_part_2={minWidth:"100px",cursor:"pointer",backgroundColor:"white",fontSize:"larger",fontFamily:'"Helvetica Neue",Helvetica,Arial,sans-serif',color:"black",borderRadius:"10%",border:"1px solid #e6ecf0",float:"left"};
+		class Zpopup extends React.Component {
+			constructor(props) {
+				super(props);
+				this.state = {
+					ml:this.props.Ml,
+					pl:window.__playlistArray,
+					checkedValueArr:[]
+				};
+				this._mousewa_leaving=this._mousewa_leaving.bind(this);
+				this._sun_sadaye_update_pl=this._sun_sadaye_update_pl.bind(this);
+				this._i_am_dying=this._i_am_dying.bind(this);
+			}
+			_i_am_dying(evt){
+				let par=evt.target.parentElement.parentElement.parentElement.lastChild.firstChild.innerText;
+				let art=this.state.checkedValueArr;
+				art.push(par);
+				this.setState({
+					checkedValueArr:art
+				})
+				console.log(this.state.checkedValueArr);
+			}
+			_sun_sadaye_update_pl(evt){
+				evt.preventDefault();
+				evt.stopPropagation();
+				evt.persist();
+			}
+			_mousewa_leaving(evt){
+				evt.preventDefault();
+				evt.stopPropagation();
+				ReactDOM.unmountComponentAtNode(evt.currentTarget.parentElement)
+			}
+			render(){
+				return (
+					<div className="z_popup" style={zPopStyle(this.state.ml)}>
+						<div style={zPopSunOne}>
+						{
+							this.state.pl.map( (a,b) => {
+								return (
+									<div key={b} style={addToPlaylistInnerSome}>
+										<div style={flFloatOne}>
+											<div style={commonDisplayFlexSt}>
+												<input type="checkbox" value={a} onChange={this._i_am_dying} />
+											</div>
+										</div>
+										<div style={flFloatTwo}>
+											<div style={commonDisplayFlexSt_text}>
+												{a}
+											</div>
+										</div>
+									</div>
+								)
+							} )
+						}
+						</div>
+						<div style={zPopSunTwo}>
+							<input type="button" value="update playlist" style={newPlaylistBtStyle_part_2} onClick={this._sun_sadaye_update_pl} />
+						</div>
+					</div>
+				)
+			}
+		}
 
 		const suggestionAbMusic={width:"100%",height:"400px",position:"relative",zIndex:"5",backgroundColor:"#f5f8fa",overflowY:"scroll"};
-		const songSuggestTextStyle={width:"99%",marginBottom:"10px",backgroundColor:"white",minHeight:"40px",display:"flex",justifyContent:"center",alignItems:"center",border:"1px solid #e6ecf0",borderRadius:"4px",cursor:"pointer"};
+		const songSuggestTextStyle={width:"78%",backgroundColor:"white",minHeight:"50px",display:"flex",justifyContent:"center",alignItems:"center",border:"1px solid #e6ecf0",borderRadius:"4px",cursor:"pointer"};
 		const spinnerFlexCont={width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"};
+		const ofBulltDaddy={};
+		const songSuggestionBaap={width:"99%",marginBottom:"10px",backgroundColor:"white",minHeight:"60px",border:"1px solid #e6ecf0",borderRadius:"4px",display:"flex"};
+		const songSuggestionBaapChild={width:"20%",backgroundColor:"white",minHeight:"50px",display:"flex",justifyContent:"center",alignItems:"center",borderRadius:"4px"};
+		const clkClickBleFonting={cursor:"pointer",width:"50px",height:"50px",borderRadius:"50%"}
 		class SuggestionOfMusic extends React.Component {
 			constructor(props) {
 				super(props);
 				this.state={
-					inputArr:this.props.Mapper
+					inputArr:this.props.Mapper,
+					cnt:1
 				};
 				this.componentWillReceiveProps=this.componentWillReceiveProps.bind(this);
 				this._peace_be_upon_muhammad=this._peace_be_upon_muhammad.bind(this);
+				this._asalam_alayka_ya_nabi_allah=this._asalam_alayka_ya_nabi_allah.bind(this);
+				this._ye_ham_aa_gaye_hai_kaha=this._ye_ham_aa_gaye_hai_kaha.bind(this);
+			}
+			_ye_ham_aa_gaye_hai_kaha(evt){
+				evt.preventDefault();
+				evt.stopPropagation();
+				evt.persist();
+				console.log("do pal ruka khabo ka karwan");
+				let a=document.getElementsByClassName('z_popup')
+				console.log(a);
+
+				console.log("maulaya salllllllllllllllllllllllllllllllllllllllllllllll");
+				console.log(evt.target.parentElement.clientWidth);
+				let lolu=evt.target.parentElement.clientWidth+200;
+				console.log("unnnnnnnnnndddddddddddeeeeeeffffffffffiiiiinnnnneeeeeedddd");
+				console.log(evt.target.parentElement.parentElement.lastChild.hasChildNodes());
+
+				let ofghtds=evt.target.parentElement.parentElement.firstChild.firstChild;
+				console.log("llllpppppppppppppppppppppppppppppppppppppp");
+				console.log(ofghtds);
+
+				if (evt.target.parentElement.parentElement.lastChild.hasChildNodes()) {
+					ReactDOM.unmountComponentAtNode(evt.target.parentElement.parentElement.lastChild);
+				}else {
+					if (a.length>0) {
+						for (var i = 0; i < a.length; i++) {
+	    				ReactDOM.unmountComponentAtNode(a[i].parentElement)
+						}
+					}
+					ReactDOM.render(<Zpopup Ml={"-"+lolu+"px"} />,evt.target.parentElement.parentElement.lastChild);
+				}
+				//ReactDOM.render(<Zpopup Ml={"-"+lolu+"px"} />,evt.target.parentElement.parentElement.lastChild);
+				console.log(evt.target.parentElement.parentElement.lastChild.hasChildNodes());
+				//console.log(evt.target.parentElement.parentElement.firstChild.lastChild.value);
+				//ReactDOM.unmountComponentAtNode(document.getElementById('_js_root_animation'));
+				//ReactDOM.render(<PlaylistPopup />,document.getElementById('_js_root_animation'))
+			}
+			_asalam_alayka_ya_nabi_allah(evt){
+				evt.preventDefault();
+				evt.stopPropagation();
+				var that=this;
+				let ofg=document.getElementById('_mm_large_textarea_breadge').value;
+				let omr=this.state.inputArr;
+				console.log("lollllollolololololololol11111111111111111111111111111111111111111111");
+				console.log(JSON.stringify({SkipCount:that.state.cnt,Current:ofg,Present:omr}));
+				if (that.state.inputArr.length<=50) {
+					Rx.Observable.ajax({ url: `/anyMore?data=${JSON.stringify({SkipCount:that.state.inputArr.length,Current:ofg})}`, responseType: 'json',method:'GET'}).map(data=>data.response.all)
+					.subscribe(
+					function (data) {
+						console.log(data);
+						that.setState({
+							inputArr:data
+						});
+
+
+					},
+				function (error) {
+						console.log(error);
+					}
+				);
+				}
+
 			}
 			_peace_be_upon_muhammad(evt){
 				let i=JSON.parse(evt.target.lastChild.value).id;
@@ -95,13 +334,23 @@
 						this.state.inputArr.length==0?(<div style={spinnerFlexCont}><Spinner /></div>):(
 							this.state.inputArr.map( (a,b) => {
 								return (
-									<div key={b} style={songSuggestTextStyle} onClick={this._peace_be_upon_muhammad}>{a.title}
-										<input type="hidden" value={JSON.stringify(a)} />
+									<div style={songSuggestionBaap} key={b}>
+										<div style={songSuggestTextStyle} onClick={this._peace_be_upon_muhammad}>{a.title}
+											<input type="hidden" value={JSON.stringify(a)} />
+										</div>
+										<div style={songSuggestionBaapChild}>
+											<img src="/plus-button.gif" style={clkClickBleFonting} onClick={this._ye_ham_aa_gaye_hai_kaha} title="Add to playlist" />
+										</div>
+										<div>
+										</div>
 									</div>
 								)
 							} )
 						)
 					}
+					<div style={songSuggestTextStyle} onClick={this._asalam_alayka_ya_nabi_allah}>Load more
+						<input type="hidden" value={JSON.stringify(this.state.inputArr)} />
+					</div>
 					</div>
 				)
 			}
@@ -228,7 +477,7 @@
 						</div>
 						<div style={videoContainerAfter}>
 							<div style={inputTypeSerchMusic}>
-								<input ref="_mm_large_textarea" type="search" style={actInputBox} placeholder="search songs" value={this.state.searchBoxText} onChange={this._mm_videoSearchBoxChng} onBlur={this._mm_ipt_serch_music_bluri} />
+								<input id="_mm_large_textarea_breadge" ref="_mm_large_textarea" type="search" style={actInputBox} placeholder="search youtube videos" value={this.state.searchBoxText} onChange={this._mm_videoSearchBoxChng} onBlur={this._mm_ipt_serch_music_bluri} />
 							</div>
 							<div id="_songs_search_suggestion" style={searchSuggestionMusic}>
 
@@ -292,7 +541,343 @@
 			}
 		}
 
-		const homeBodyMainStyle={width:"100%",height:"100%",marginTop:"55px",backgroundColor:"white",border:"1px solid lightgrey"};
+
+		// Action class wrapper
+
+
+
+		const abcStylePopup_act={width:"99%",height:"1240px",position:"absolute",zIndex:10,backgroundColor:"transparent"};
+		const popupPlaylistDf_act={width:"100%",height:"100%",display:"flex",justifyContent:"center"};
+		const actPlaylistQuestPopup_act={width:"400px",height:"400px",border:"1px solid #e6ecf0",marginTop:"150px"};
+		const playlistPopupHead_act={width:"100%",height:"40px",backgroundColor:"white",marginBottom:"10px"};
+		const playlistPopupBody_act={width:"100%",height:"340px",backgroundColor:"white"};
+		const closePlaylistPopupBefore_act={width:"70%",height:"100%",display:"inline",float:"left"};
+		const closePlaylistPopupAfter_act={width:"30%",height:"100%",display:"inline",float:"right"};
+		const dflexCloseBefore_act={width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"};
+		const dflexCloseAfter_act={width:"100%",height:"100%",display:"flex",justifyContent:"flex-end",alignItems:"center"};
+		const closingPopupFontwa_act={cursor:"pointer"};
+		const msgInformationToAddPlaylist_act={width:"100%",height:"40px",display:"flex",justifyContent:"center",alignItems:"center"};
+		const actPlaylistDataStyle_act={width:"100%",height:"260px",overflowY:"scroll"};
+		const updatePlaylistStyle_act={width:"100%",height:"40px"};
+		const createPlaylistButtonDadaji_act={width:"50%",height:"100%",display:"inline",float:"left"};
+		const updatePlaylistButtonDadaji_act={width:"50%",height:"100%",display:"inline",float:"right"};
+		const createPlaylistButtonDady_act={width:"99%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center",border:"1px solid #e6ecf0"};
+		const updatePlaylistButtonDady_act={width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"};
+		const closingPopupFontwaOf_act={cursor:"pointer"};
+		class ActionOnPostPopup extends React.Component {
+			constructor(props) {
+				super(props);
+				this.state = {
+
+				};
+				this.componentWillMount=this.componentWillMount.bind(this);
+				this.componentWillUnmount=this.componentWillUnmount.bind(this);
+				this._closing_playlist_popup_bhai=this._closing_playlist_popup_bhai.bind(this);
+			}
+			_closing_playlist_popup_bhai(evt){
+				ReactDOM.unmountComponentAtNode(document.getElementById('_js_root_animation'))
+			}
+			componentWillMount(){
+				var events = new CustomEvent(
+					"opacity",
+					{
+						detail: {
+							message: 0.2,
+							time: new Date(),
+					},
+					bubbles: true,
+					cancelable: true
+				}
+			 );
+			 window.dispatchEvent(events);
+			}
+			componentWillUnmount(){
+				var events = new CustomEvent(
+					"opacity",
+					{
+						detail: {
+							message: 1,
+							time: new Date(),
+					},
+					bubbles: true,
+					cancelable: true
+				}
+			 );
+			 window.dispatchEvent(events);
+			}
+			render(){
+				return (
+					<div style={abcStylePopup_act}>
+						<div style={popupPlaylistDf_act}>
+							<div style={actPlaylistQuestPopup_act}>
+								<div style={playlistPopupHead_act}>
+									<div style={closePlaylistPopupBefore_act}>
+										<div style={dflexCloseBefore_act}>
+											<font size={4}>My action</font>
+										</div>
+									</div>
+									<div style={closePlaylistPopupAfter_act}>
+										<div style={dflexCloseAfter_act}>
+											<font style={closingPopupFontwa_act} size={5} onClick={this._closing_playlist_popup_bhai}>&#9932;</font>
+										</div>
+									</div>
+								</div>
+								<div style={playlistPopupBody_act}>
+									<div style={msgInformationToAddPlaylist_act}>Please check the checkbox to add to the target playlist
+									</div>
+									<div id="_jaaniye_heeriye_oo_hs" style={actPlaylistDataStyle_act}>2
+									</div>
+									<div style={updatePlaylistStyle_act}>
+										<div style={createPlaylistButtonDadaji_act}>
+											<div style={createPlaylistButtonDady_act}>
+												<font style={closingPopupFontwaOf_act} size={5}>Create playlist</font>
+											</div>
+										</div>
+										<div style={updatePlaylistButtonDadaji_act}>
+											<div style={updatePlaylistButtonDady_act}>
+												<font style={closingPopupFontwaOf_act} size={5}>Update playlist</font>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				)
+			}
+		}
+
+
+
+
+
+
+
+
+		//end action wrapper
+
+
+		var datwaHou=()=>{
+			let today = Date.now();
+			return today
+		}
+
+
+
+		const everythingIsYouEverDreamedOf={width:"100%",height:"100%"};
+		const tStyleMainText={width:"100%",height:"30px"};
+		const tStyleImgText={width:"100%",height:"300px",backgroundColor:"white"};
+		const tStyleImgText_open={width:"100%",height:"100px",backgroundColor:"white"};
+		const tStyleExtraText={width:"100%",height:"50px"};
+		const mujhseJadaMereJaisa={width:"33%",height:"100%",display:"inline",float:"left",backgroundColor:"white",border:"1px solid #e6ecf0"};
+		const mujhseJadaMereJaisa_2={width:"33%",height:"100%",display:"inline",float:"left",backgroundColor:"white"};
+		const mujhseJadaMereJaisa_3={width:"33%",height:"100%",display:"inline",float:"right",backgroundColor:"white",border:"1px solid #e6ecf0"};
+		const asDflexStMore={width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"};
+		const raterSelect={fontSize:"larger",border:"none",backgroundColor:"transparent"};
+		const mujhseJadaMereJaisa_x={width:"33%",height:"100%",display:"inline",float:"left",backgroundColor:"white"};
+		const mujhseJadaMereJaisa_2_x={width:"33%",height:"100%",display:"inline",float:"left",backgroundColor:"white"};
+		const mujhseJadaMereJaisa_3_x={width:"34%",height:"100%",display:"inline",float:"right",backgroundColor:"white"};
+		const pImgOfPost={width:"50%",height:"95%"};
+		const ooIfIcouldDen={cursor:"pointer"};
+		const fHundredStyle_open={width:"100%",height:"180px",marginTop:"10px",marginBottom:"10px"};
+		const raterSelect_action={fontSize:"larger",border:"none",backgroundColor:"transparent",width:"45%",maxWidth:"100%"};
+		class PostOrEnjoymentMapper extends React.Component {
+			constructor(props) {
+				super(props);
+				this.state = {
+					testBilla:this.props.TestBilla,
+					type:this.props.Type,
+					rcImgPost:"a.jpg"
+				};
+				this._chalo_madine_me=this._chalo_madine_me.bind(this);
+				this.componentWillReceiveProps=this.componentWillReceiveProps.bind(this);
+			}
+			_chalo_madine_me(evt){
+				evt.preventDefault();
+				evt.stopPropagation();
+				ReactDOM.render(<ActionOnPostPopup />,document.getElementById('_js_root_animation'))
+			}
+			componentWillReceiveProps(nextProps){
+				this.setState({
+					testBilla:nextProps.TestBilla,
+					type:nextProps.Type
+				})
+			}
+			render(){
+				if (this.state.type=="post") {
+					return (
+						<div style={everythingIsYouEverDreamedOf}>
+						{
+							this.state.testBilla.map( (a,b) => {
+								return (
+									<div key={b} style={fHundredStyle}>
+										<div style={tStyleMainText}>
+											<div style={mujhseJadaMereJaisa}>
+												<div style={asDflexStMore}>
+													<font size={5}>
+														{
+															a
+														}
+													</font>
+												</div>
+											</div>
+											<div style={mujhseJadaMereJaisa_2}>
+												<div style={asDflexStMore}>
+													<font style={ooIfIcouldDen} size={3}>
+														posted this
+													</font>
+												</div>
+											</div>
+											<div style={mujhseJadaMereJaisa_3}>
+												<div style={asDflexStMore}>
+													<font size={3}>
+														{
+															datwaHou()
+														}
+													</font>
+												</div>
+											</div>
+										</div>
+										<div style={tStyleImgText}>
+											<div style={asDflexStMore}>
+												<img src={this.state.rcImgPost} style={pImgOfPost} />
+											</div>
+										</div>
+										<div style={tStyleExtraText}>
+											<div style={mujhseJadaMereJaisa_x}>
+												<div style={asDflexStMore}>
+													{/*<font style={ooIfIcouldDen} size={4}>
+														Action
+													</font>*/}
+													<select style={raterSelect_action} onChange={this._chalo_madine_me}>
+														<option value="" disabled="true" selected="true">Action</option>
+														<option value="Hook up">Hook up</option>
+														<option value="Hook down">Hook down</option>
+														<option value="Emojis">Emojis</option>
+														<option value="Comment">Comment</option>
+														<option value="Blame">Blame</option>
+														<option value="Save post">Save post</option>
+													</select>
+												</div>
+											</div>
+											<div style={mujhseJadaMereJaisa_2_x}>
+												<div style={asDflexStMore}>
+													<select style={raterSelect}>
+														<option value="" disabled="true" selected="true">Rate</option>
+														<option value="5">+5</option>
+														<option value="4">+4</option>
+														<option value="3">+3</option>
+														<option value="2">+2</option>
+														<option value="1">+1</option>
+														<option value="0">0</option>
+														<option value="-1">-1</option>
+														<option value="-2">-2</option>
+														<option value="-3">-3</option>
+														<option value="-4">-4</option>
+														<option value="-5">-5</option>
+													</select>
+												</div>
+											</div>
+											<div style={mujhseJadaMereJaisa_3_x}>
+												<div style={asDflexStMore}>
+													<font style={ooIfIcouldDen} size={4}>
+														Ignore
+													</font>
+												</div>
+											</div>
+										</div>
+									</div>
+								)
+							} )
+						}
+						</div>
+					)
+				}else {
+					return (
+						<div style={everythingIsYouEverDreamedOf}>
+						{
+							this.state.testBilla.map( (a,b) => {
+								return (
+									<div key={b} style={fHundredStyle_open}>
+										<div style={tStyleMainText}>
+											<div style={mujhseJadaMereJaisa}>
+												<div style={asDflexStMore}>
+													<font size={5}>
+														{
+															a
+														}
+													</font>
+												</div>
+											</div>
+											<div style={mujhseJadaMereJaisa_2}>
+												<div style={asDflexStMore}>
+													<font style={ooIfIcouldDen} size={3}>
+														watched this
+													</font>
+												</div>
+											</div>
+											<div style={mujhseJadaMereJaisa_3}>
+												<div style={asDflexStMore}>
+													<font size={3}>
+														{
+															datwaHou()
+														}
+													</font>
+												</div>
+											</div>
+										</div>
+										<div style={tStyleImgText_open}>
+											<div style={asDflexStMore}>
+												heh
+											</div>
+										</div>
+										<div style={tStyleExtraText}>
+											<div style={mujhseJadaMereJaisa_x}>
+												<div style={asDflexStMore}>
+													<font style={ooIfIcouldDen} size={4}>
+														Action
+													</font>
+												</div>
+											</div>
+											<div style={mujhseJadaMereJaisa_2_x}>
+												<div style={asDflexStMore}>
+													<select style={raterSelect}>
+														<option value="" disabled="true" selected="true">Rate</option>
+														<option value="5">+5</option>
+														<option value="4">+4</option>
+														<option value="3">+3</option>
+														<option value="2">+2</option>
+														<option value="1">+1</option>
+														<option value="0">0</option>
+														<option value="-1">-1</option>
+														<option value="-2">-2</option>
+														<option value="-3">-3</option>
+														<option value="-4">-4</option>
+														<option value="-5">-5</option>
+													</select>
+												</div>
+											</div>
+											<div style={mujhseJadaMereJaisa_3_x}>
+												<div style={asDflexStMore}>
+													<font style={ooIfIcouldDen} size={4}>
+														Ignore
+													</font>
+												</div>
+											</div>
+										</div>
+									</div>
+								)
+							} )
+						}
+						</div>
+					)
+				}
+			}
+		}
+
+
+
+		const homeBodyMainStyle={width:"100%",height:"100%",marginTop:"55px",backgroundColor:"white",border:"1px solid lightgrey",fontFamily:'"Helvetica Neue",Helvetica,Arial,sans-serif'};
 		const tempContHundred={width:"100%",height:"100%"};
 		const switchContStyle={width:"100%",height:"30px",marginBottom:"10px"};
 		const internalChangeClickStyle={width:"50%",height:"100%",display:"inline",float:"left"};
@@ -303,12 +888,12 @@
 			return {width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center",backgroundColor:colorB,cursor:"pointer"};
 		}
 		var _music_and_post=(a) => {
-			return{width:"100%",height:a,overflowY:"scroll"};
+			return{width:"100%",height:a,overflowY:"scroll",backgroundColor:"#f5f8fa"};
 		}
 		var _music_and_post_billa=(a) => {
 			return {width:"100%",height:a};
 		}
-		const fHundredStyle={width:"100%",height:"500px"}
+		const fHundredStyle={width:"100%",height:"380px",marginTop:"10px",marginBottom:"10px"}
 		class HomeBodyPartTwo extends React.Component {
 			constructor(props){
 				super(props);
@@ -317,7 +902,8 @@
 					enjBackColor:"#f5f8fa",
 					postBackColor:"white",
 					myTarget:"post",
-					testBilla:["a","b","c","d","e","f"],
+					postBilla:["ap","bp","cp","dp","ep","fp"],
+					musicBilla:["am","bm","cm","dm","em","fm"],
 					scrH:"960px"
 				};
 				this._mm_enj_white=this._mm_enj_white.bind(this);
@@ -373,14 +959,13 @@
 									</div>
 								)
 							}
-							<div style={_music_and_post(this.state.scrH)}>
+							<div id="_maal_or_katto_s_hs" style={_music_and_post(this.state.scrH)}>
 								{
-									this.state.testBilla.map( (a,b) => {
-										return (
-											<div key={b} style={fHundredStyle}>a
-											</div>
-										)
-									} )
+									this.state.myTarget=="post"?(
+										<PostOrEnjoymentMapper Type="post" TestBilla={this.state.postBilla} />
+									):(
+										<PostOrEnjoymentMapper Type="music" TestBilla={this.state.musicBilla} />
+									)
 								}
 							</div>
 						</div>

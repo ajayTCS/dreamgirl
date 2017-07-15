@@ -135,8 +135,24 @@
 			_ok_clk(evt){
 				evt.preventDefault();
 				evt.stopPropagation();
-				let ac={Email:this.state.emOphnVal,Password:this.state.pwdVal,name:this.state.nmVal,gnd:this.state.mGend,repas:this.state.repwdVal};
-				console.log(ac);;
+				/*let ac={Email:this.state.emOphnVal,Password:this.state.pwdVal,Name:this.state.nmVal,Gnd:this.state.mGend,repas:this.state.repwdVal};
+				console.log(ac);
+				if (this.state.pwdVal==this.state.repwdVal) {
+					var formData=new FormData();
+					formData.append("email",this.state.emOphnVal)
+					formData.append("password",this.state.pwdVal)
+					//console.log(ac)
+					var xhttp = new XMLHttpRequest();
+								xhttp.open("POST", "signUpMePlease", true);
+								xhttp.setRequestHeader('Content-Type','application/json');
+								xhttp.onreadystatechange = function(data){
+	    							if (xhttp.readyState==4) {
+	    								console.log(this.responseText)
+
+	    							}
+								};
+							xhttp.send({Ac:JSON.stringify(ac)});
+				}*/
 				/*var formData=new FormData();
 				formData.append("email",this.state.emOphnVal)
 				formData.append("password",this.state.pwdVal)
@@ -226,7 +242,7 @@
 												</code>
 											</div>
 										</div>
-										<div style={againInnerSt}>
+										<form method="POST" action="/signUpMePlease"><div style={againInnerSt}>
 											<div style={dFlexStyle}>
 												<input type="text" name="name" id="_name" style={emOphnStyle} value={this.state.nmVal} placeholder="name" onChange={this._nm_change} onFocus={this._mm_nm_foci} onBlur={this._mm_nm_bluri} />{(this.state.nmVal!="" && sName(this.state.nmVal))?(<span style={spanningHello_ok}>&#8730;</span>):(<span style={spanningHello}>{this.state.innerSpanning}</span>)}
 											</div>
@@ -243,7 +259,7 @@
 										</div>
 										<div style={againInnerSt}>
 											<div style={dFlexStyle}>
-												<input type="password" name="_pwd" id="re_pwd" style={emOphnStyle} value={this.state.repwdVal} placeholder="re enter password" onChange={this._re_pwd_change} />{(this.state.repwdVal!="" && this.state.pwdVal!="" && this.state.repwdVal==this.state.pwdVal)?(<span style={spanningHello_ok}>&#8730;</span>):(<span style={spanningHello}>{this.state.innerSpanningRePas}</span>)}
+												<input type="password" name="_pwd_re" id="re_pwd" style={emOphnStyle} value={this.state.repwdVal} placeholder="re enter password" onChange={this._re_pwd_change} />{(this.state.repwdVal!="" && this.state.pwdVal!="" && this.state.repwdVal==this.state.pwdVal)?(<span style={spanningHello_ok}>&#8730;</span>):(<span style={spanningHello}>{this.state.innerSpanningRePas}</span>)}
 											</div>
 										</div>
 										<div style={againInnerSt}>
@@ -268,7 +284,7 @@
 										<div style={againInnerSt}>
 											<div style={loginButtonContStyle}>
 												<div style={indiLoginBtContStyle}>
-													<input type="button" value="signup" style={logBtStyle} onClick={this._ok_clk} />
+													<input type="submit" value="signup" style={logBtStyle} />
 												</div>
 												<div style={indiLoginBtContStyle_mine}>
 													<div style={rememberMeStyle}>
@@ -279,7 +295,7 @@
 
 												</div>
 											</div>
-											</div>
+											</div></form>
 									</div>
 								</div>
 							</div>

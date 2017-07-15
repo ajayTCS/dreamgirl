@@ -8,4 +8,47 @@
 	#_bdy_part_3{width: 29%;height: 100%;display: inline;float: right}
 	#_chat_container{width:68%;height:30px;position:fixed;z-index:25;margin-top:750px;background-color:transparent;}
 </style>
+<style type="text/css">
+		#_unique_id_for_hide_news_scrollbar::-webkit-scrollbar {
+    			width: 0px;  /* remove scrollbar space */
+    			background: transparent;  /* optional: just make scrollbar invisible */
+		}
+	</style>
+	<style type="text/css">
+			#_part_three_home_u_id_f_hs::-webkit-scrollbar {
+	    			width: 0px;  /* remove scrollbar space */
+	    			background: transparent;  /* optional: just make scrollbar invisible */
+			}
+		</style>
+		<style type="text/css">
+				html::-webkit-scrollbar {
+		    			width: 0px;  /* remove scrollbar space */
+		    			background: transparent;  /* optional: just make scrollbar invisible */
+				}
+				html::-webkit-scrollbar {
+    			width: 15px;  /* remove scrollbar space */
+    			background: darkgrey;  /* optional: just make scrollbar invisible */
+					}
+					html::-webkit-scrollbar-thumb {
+    				background: #f5f8fa;
+					}
+			</style>
+			<style type="text/css">
+					#_maal_or_katto_s_hs::-webkit-scrollbar {
+			    			width: 0px;  /* remove scrollbar space */
+			    			background: transparent;  /* optional: just make scrollbar invisible */
+					}
+				</style>
+				<style type="text/css">
+						#_jaaniye_heeriye_oo_hs::-webkit-scrollbar {
+				    			width: 0px;  /* remove scrollbar space */
+				    			background: transparent;  /* optional: just make scrollbar invisible */
+						}
+					</style>
+					<style type="text/css">
+							#_preet_ki_dhun_par_naach_le_hs::-webkit-scrollbar {
+					    			width: 0px;  /* remove scrollbar space */
+					    			background: transparent;  /* optional: just make scrollbar invisible */
+							}
+						</style>
 {{end}}

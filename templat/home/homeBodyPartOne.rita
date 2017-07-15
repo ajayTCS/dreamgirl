@@ -1,32 +1,556 @@
 {{define "homeBodyPartOne"}}
 
-
+<script type="text/javascript">
+window.__playlistArray =[
+		{{range $i,$a:= .}}{{$a}},{{end}}
+	];
+</script>
 
 	<script type="text/babel">
 		'use strict';
+
+
+		const abcStylePopup={width:"99%",height:"1240px",position:"absolute",zIndex:10,backgroundColor:"transparent"};
+		const popupPlaylistDf={width:"100%",height:"100%",display:"flex",justifyContent:"center"};
+		const actPlaylistQuestPopup={width:"400px",height:"400px",border:"1px solid #e6ecf0",marginTop:"150px"};
+		const playlistPopupHead={width:"100%",height:"40px",backgroundColor:"white",marginBottom:"10px"};
+		const playlistPopupBody={width:"100%",height:"340px",backgroundColor:"white"};
+		const closePlaylistPopupBefore={width:"70%",height:"100%",display:"inline",float:"left"};
+		const closePlaylistPopupAfter={width:"30%",height:"100%",display:"inline",float:"right"};
+		const dflexCloseBefore={width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"};
+		const dflexCloseAfter={width:"100%",height:"100%",display:"flex",justifyContent:"flex-end",alignItems:"center"};
+		const closingPopupFontwa={cursor:"pointer"};
+		const msgInformationToAddPlaylist={width:"100%",height:"40px",display:"flex",justifyContent:"center",alignItems:"center"};
+		const actPlaylistDataStyle={width:"100%",height:"40%"};
+		const updatePlaylistStyle={width:"100%",height:"40px"};
+		const createPlaylistButtonDadaji={width:"50%",height:"100%",display:"inline",float:"left"};
+		const updatePlaylistButtonDadaji={width:"50%",height:"100%",display:"inline",float:"right"};
+		const createPlaylistButtonDady={width:"99%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center",border:"1px solid #e6ecf0"};
+		const updatePlaylistButtonDady={width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"};
+		const closingPopupFontwaOf={cursor:"pointer"};
+		const playlistNameBoxStyle={width:"100%",height:"50px",display:"flex",justifyContent:"center",alignItems:"center"};
+		const playlistCreateBoxPopupStyle={width:"100%",height:"50px",display:"flex",justifyContent:"center",alignItems:"center"};
+		const plNameProvider={width:"65%",height:"80%"};
+		const flexibleFlexSick={width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"}
+		class PlaylistPopupCopy extends React.Component {
+			constructor(props) {
+				super(props);
+				this.state = {
+					newNamePl:""
+				};
+				this.componentWillMount=this.componentWillMount.bind(this);
+				this.componentWillUnmount=this.componentWillUnmount.bind(this);
+				this._closing_playlist_popup_bhai=this._closing_playlist_popup_bhai.bind(this);
+				this._playlistNewNameChange=this._playlistNewNameChange.bind(this);
+				this._mm_ll_clk_new_playlist_merge=this._mm_ll_clk_new_playlist_merge.bind(this);
+			}
+			_mm_ll_clk_new_playlist_merge(evt){
+				evt.preventDefault();
+				evt.stopPropagation();
+				var that=this;
+				let golj=window.__rasoola.allah[1];
+				Rx.Observable.ajax({ url: `/newPlaylistCreation?data=${JSON.stringify({Me:golj,Playlist:that.state.newNamePl})}`, responseType: 'json',method:'GET'}).map(data=>data.response.All)
+				.subscribe(
+				function (data) {
+					console.log(data);
+					window.__playlistArray=data;
+					var event = new CustomEvent(
+						"mutate_playlist",
+						{
+							detail: {
+								message: data,
+								time: new Date(),
+							},
+							bubbles: true,
+							cancelable: true
+						}
+					);
+					window.dispatchEvent(event);
+				},
+				function (error) {
+					console.log(error);
+				}
+				);
+			}
+			_playlistNewNameChange(evt){
+				evt.preventDefault();
+				evt.stopPropagation();
+				this.setState({
+					newNamePl:evt.target.value
+				})
+			}
+			_closing_playlist_popup_bhai(evt){
+				ReactDOM.unmountComponentAtNode(document.getElementById('_js_root_animation'))
+			}
+			componentWillMount(){
+				var events = new CustomEvent(
+					"opacity",
+					{
+						detail: {
+							message: 0.2,
+							time: new Date(),
+					},
+					bubbles: true,
+					cancelable: true
+				}
+			 );
+			 window.dispatchEvent(events);
+			}
+			componentWillUnmount(){
+				var events = new CustomEvent(
+					"opacity",
+					{
+						detail: {
+							message: 1,
+							time: new Date(),
+					},
+					bubbles: true,
+					cancelable: true
+				}
+			 );
+			 window.dispatchEvent(events);
+			}
+			render(){
+				return (
+					<div style={abcStylePopup}>
+						<div style={popupPlaylistDf}>
+							<div style={actPlaylistQuestPopup}>
+								<div style={playlistPopupHead}>
+									<div style={closePlaylistPopupBefore}>
+										<div style={dflexCloseBefore}>
+											<font size={4}>New playlist</font>
+										</div>
+									</div>
+									<div style={closePlaylistPopupAfter}>
+										<div style={dflexCloseAfter}>
+											<font style={closingPopupFontwa} size={5} onClick={this._closing_playlist_popup_bhai}>&#9932;</font>
+										</div>
+									</div>
+								</div>
+								<div style={playlistPopupBody}>
+
+									<div style={flexibleFlexSick}>
+										<div style={actPlaylistDataStyle}>
+											<div style={playlistNameBoxStyle}>
+												<input type="text" style={plNameProvider} placeholder="enter playlist name" value={this.state.newNamePl} onChange={this._playlistNewNameChange} />
+											</div>
+											<div style={playlistCreateBoxPopupStyle}>
+												<input type="button" value="create" onClick={this._mm_ll_clk_new_playlist_merge} />
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				)
+			}
+		}
+
+
+
+
+
+const afterMaybeDiv={width:"100%"}
+class SongsOfPlaylist extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			name:this.props.Name,
+			mapper:[]
+		};
+	}
+	render(){
+		return(
+			<ul style={myUl}>
+				{
+					this.state.mapper.map( (a,b) => {
+						return (
+							<li key={b} style={clickableListOnMainPage}><font size={3} color="black" style={mmActFontingCursor} >{a}</font></li>
+						)
+					} )
+				}
+			</ul>
+		)
+	}
+}
+
+
+
+
+
+
+
+
+
+		const myPlayListBoxStyle={width:"100%"};
+		const playlistCreateNewCont={width:"100%",height:"50px"};
+		var playlistActualData=(height) => {
+			return {width:"100%",height:height,overflowY:"scroll"};
+		}
+		const nonerLi={display:"none"};
+		const newPlaylistBtStyle={minWidth:"100px",cursor:"pointer",backgroundColor:"white",fontSize:"larger",fontFamily:'"Helvetica Neue",Helvetica,Arial,sans-serif',color:"black",borderRadius:"10%",border:"1px solid #e6ecf0",float:"left"};
+		const sukun_mil_jaye={textAlign:"center"};
+		class MyOwnPlayList extends React.Component {
+			constructor(props) {
+				super(props);
+				this.state = {
+					myScrollHeight:"auto",
+					playListLooking:window.__playlistArray?window.__playlistArray:[]
+				};
+				this.componentDidMount=this.componentDidMount.bind(this);
+				this._let_me_create_my_new_playlist=this._let_me_create_my_new_playlist.bind(this);
+				this.componentWillMount=this.componentWillMount.bind(this);
+				this._pyar_tune_kya_kiya_clk=this._pyar_tune_kya_kiya_clk.bind(this);
+			}
+			_pyar_tune_kya_kiya_clk(evt){
+				evt.preventDefault();
+				evt.stopPropagation();
+				evt.persist();
+				NodeList.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
+				HTMLCollection.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
+				let sauEkar=document.getElementsByClassName('tu_mera_rog_hai');
+				if (sauEkar.length>0) {
+					for (var item of sauEkar) {
+    				ReactDOM.unmountComponentAtNode(item)
+					}
+				}
+				ReactDOM.render(<SongsOfPlaylist Name={evt.target.innerText} />,evt.target.parentElement.parentElement.lastChild.firstChild)
+			}
+			componentWillMount(){
+				var that=this;
+				console.log(that.state.playListLooking);
+				window.addEventListener("mutate_playlist",(evt) => {
+					console.log("hello binding");
+					let rev=evt.detail.message.reverse();
+					that.setState({
+						playListLooking:rev
+					})
+					console.log(that.state.playListLooking);
+				},true);
+			}
+			_let_me_create_my_new_playlist(evt){
+				evt.preventDefault();
+				evt.stopPropagation();
+				var that=this;
+				let golj=window.__rasoola.allah[1];
+				console.log(golj);
+				ReactDOM.render(<PlaylistPopupCopy />,document.getElementById('_js_root_animation'))
+				/*Rx.Observable.ajax({ url: `/newPlaylistCreation?data=${JSON.stringify({Me:golj})}`, responseType: 'json',method:'GET'}).map(data=>data.response.all)
+				.subscribe(
+				function (data) {
+					console.log(data);
+					that.setState({
+						inputArr:data
+					});
+
+
+				},
+				function (error) {
+					console.log(error);
+				}
+				);*/
+
+			}
+			componentDidMount(){
+				let o1=document.getElementById('_lol_wa_one').clientHeight;
+				let o2=document.getElementById('_lol_wa_two').clientHeight;
+				let o3=document.getElementById('_lol_wa_three').clientHeight;
+				let o4=document.getElementById('_lol_wa_four').clientHeight;
+				let o5=document.getElementById('_head').clientHeight;
+				let o6=1200-(o1+o2+o3+o4+o5+30)+"px";
+				console.log(1200-(o1+o2+o3+o4+o5+10)+"px");
+				this.setState({
+					myScrollHeight:o6
+				})
+			}
+			render(){
+				return (
+					<div style={myPlayListBoxStyle}>
+						<div style={playlistCreateNewCont}>
+							<ul style={myUl}>
+								<li><input type="button" value="Create new" style={newPlaylistBtStyle} onClick={this._let_me_create_my_new_playlist} /></li>
+							</ul>
+						</div>
+						<div id="_preet_ki_dhun_par_naach_le_hs" style={playlistActualData(this.state.myScrollHeight)}>
+							{
+								this.state.playListLooking.length==0?(<p style={sukun_mil_jaye}>There are no playlist created by you...please create one .</p>):(
+									this.state.playListLooking.map( (a,b) => {
+										return (
+											<ul key={b} style={myUl}>
+												<li style={clickableListOnMainPage}><font size={3} color="black" style={mmActFontingCursor} onClick={this._pyar_tune_kya_kiya_clk} >{a}</font></li>
+												<li style={nonerLi}><div className="tu_mera_rog_hai" ></div></li>
+											</ul>
+										)
+									} )
+								)
+							}
+						</div>
+					</div>
+				)
+			}
+		}
+
+
+
+		// Action class wrapper
+
+
+
+		const abcStylePopup_dp={width:"99%",height:"1240px",position:"absolute",zIndex:10,backgroundColor:"transparent",fontFamily:'"Helvetica Neue",Helvetica,Arial,sans-serif'};
+		const popupPlaylistDf_dp={width:"100%",height:"100%",display:"flex",justifyContent:"center"};
+		const actPlaylistQuestPopup_dp={width:"400px",height:"400px",border:"1px solid #e6ecf0",marginTop:"150px"};
+		const playlistPopupHead_dp={width:"100%",height:"40px",backgroundColor:"white",marginBottom:"10px"};
+		const playlistPopupBody_dp={width:"100%",height:"340px",backgroundColor:"white"};
+		const closePlaylistPopupBefore_dp={width:"70%",height:"100%",display:"inline",float:"left"};
+		const closePlaylistPopupAfter_dp={width:"30%",height:"100%",display:"inline",float:"right"};
+		const dflexCloseBefore_dp={width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"};
+		const dflexCloseAfter_dp={width:"100%",height:"100%",display:"flex",justifyContent:"flex-end",alignItems:"center"};
+		const closingPopupFontwa_dp={cursor:"pointer"};
+		const msgInformationToAddPlaylist_dp={width:"100%",height:"40px",display:"flex",justifyContent:"center",alignItems:"center"};
+		const actPlaylistDataStyle_dp={width:"100%",height:"260px",overflowY:"scroll"};
+		const updatePlaylistStyle_dp={width:"100%",height:"40px"};
+		const createPlaylistButtonDadaji_dp={width:"100%",height:"100%",display:"inline",float:"left"};
+		const updatePlaylistButtonDadaji_dp={width:"50%",height:"100%",display:"inline",float:"right"};
+		const createPlaylistButtonDady_dp={width:"99%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center",border:"1px solid #e6ecf0"};
+		const updatePlaylistButtonDady_dp={width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"};
+		const closingPopupFontwaOf_dp={cursor:"pointer"};
+		const duniya_me_nahi_hai={width:"100%",height:"200px"};
+		const kudrat_hans_paregi={width:"100%",height:"33%"};
+		const man_amadeham={width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"flex-end"};
+		const man_amadeham_1={width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"};
+		const man_amadeham_2={width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"flex-start"};
+		const aa_v_ja_bahon_me={width:"80%",height:"25px"};
+		class ChangeDPPopup extends React.Component {
+			constructor(props) {
+				super(props);
+				this.state = {
+					statusText:"",
+					initBeg:0
+				};
+				this.componentWillMount=this.componentWillMount.bind(this);
+				this.componentWillUnmount=this.componentWillUnmount.bind(this);
+				this._closing_playlist_popup_bhai=this._closing_playlist_popup_bhai.bind(this);
+				this._let_me_get_typed_array=this._let_me_get_typed_array.bind(this);
+			}
+			_let_me_get_typed_array(evt){
+				evt.preventDefault();
+				evt.stopPropagation();
+				evt.persist();
+				var that=this;
+				var reader = new FileReader();
+				reader.onload = function(event) {
+    				var contents = event.target.result;
+    				console.log(contents.byteLength);
+    				var uAr=new Uint8Array(contents);
+    				console.log(uAr);
+    				var xhttp = new XMLHttpRequest();
+
+    				xhttp.onreadystatechange = function() {
+    					if (this.readyState == 4 && this.status == 200) {
+    						//console.log(this.responseText)
+    						//_gotta_ok_main_shop_icon
+
+    						let vx=JSON.parse(this.responseText);
+    						console.log(vx)
+    						sessionStorage.itemMap=JSON.stringify({vax:vx.name});
+    						that.setState({
+    							statusText:`!!Success!! Total uploaded size = ${vx.size}`,
+    							fDisabled:false
+    						});
+    						//ReactDOM.render(<FakeIcon SR={vx.name} />,document.getElementById('_gotta_ok_main_shop_icon'))
+    					}
+    				};
+
+    				xhttp.open("POST", `fileUploadItemIcon`, true);
+    				//xhttp.setRequestHeader('Content-Type','application/octet-stream')
+    				console.log(xhttp.upload)
+    				xhttp.upload.addEventListener("progress",function(e) {
+						var pc = parseInt((e.loaded / e.total * 100));
+						//progress.style.backgroundPosition = pc + "% 0";
+						console.log(pc);
+						that.setState({
+							initBeg:pc
+						})
+					},false);
+					xhttp.setRequestHeader('Content-Type', 'application/json');
+					var s=JSON.stringify({val:uAr});
+					xhttp.send(uAr);
+				};
+				reader.onerror = function(event) {
+    				console.error("File could not be read! Code " + event.target.error.code);
+				};
+				reader.readAsArrayBuffer(evt.target.files[0]);
+			}
+			_closing_playlist_popup_bhai(evt){
+				ReactDOM.unmountComponentAtNode(document.getElementById('_js_root_animation'))
+			}
+			componentWillMount(){
+				var events = new CustomEvent(
+					"opacity",
+					{
+						detail: {
+							message: 0.2,
+							time: new Date(),
+					},
+					bubbles: true,
+					cancelable: true
+				}
+			 );
+			 window.dispatchEvent(events);
+			}
+			componentWillUnmount(){
+				var events = new CustomEvent(
+					"opacity",
+					{
+						detail: {
+							message: 1,
+							time: new Date(),
+					},
+					bubbles: true,
+					cancelable: true
+				}
+			 );
+			 window.dispatchEvent(events);
+			}
+			render(){
+				return (
+					<div style={abcStylePopup_dp}>
+						<div style={popupPlaylistDf_dp}>
+							<div style={actPlaylistQuestPopup_dp}>
+								<div style={playlistPopupHead_dp}>
+									<div style={closePlaylistPopupBefore_dp}>
+										<div style={dflexCloseBefore_dp}>
+											<font size={4}>Change DP</font>
+										</div>
+									</div>
+									<div style={closePlaylistPopupAfter_dp}>
+										<div style={dflexCloseAfter_dp}>
+											<font style={closingPopupFontwa_dp} size={5} onClick={this._closing_playlist_popup_bhai}>&#9932;</font>
+										</div>
+									</div>
+								</div>
+								<div style={playlistPopupBody_dp}>
+									<div style={msgInformationToAddPlaylist_dp}>Please choose image to make new DP.
+									</div>
+									<div id="_jaaniye_heeriye_oo_hs" style={actPlaylistDataStyle_dp}>
+										<div style={duniya_me_nahi_hai}>
+											<div style={kudrat_hans_paregi}>
+												<div style={man_amadeham}>
+													<input type="file" name="change_new_dp" id="change_new_dp" className="change_new_dp" onChange={this._let_me_get_typed_array} />
+												</div>
+											</div>
+											<div style={kudrat_hans_paregi}>
+												<div style={man_amadeham_1}>
+													<progress style={aa_v_ja_bahon_me} id="_change_dp_monitor" value={this.state.initBeg} max="100"></progress>
+												</div>
+											</div>
+											<div style={kudrat_hans_paregi}>
+												<div style={man_amadeham_2}>
+													<font size={4}>{this.state.statusText}</font>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div style={updatePlaylistStyle_dp}>
+										<div style={createPlaylistButtonDadaji_dp}>
+											<div style={createPlaylistButtonDady_dp}>
+												<font style={closingPopupFontwaOf_dp} size={5} onClick={this._closing_playlist_popup_bhai}>Finish</font>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				)
+			}
+		}
+
+
+
+
+
+
+
+
+		//end action wrapper
+
+
+
 		const homeBodyMainStyle={width:"100%",height:"100%",marginTop:"55px"};
 		const home_p_three_white={width:"70%",height:"100%",backgroundColor:"white",border:"1px solid lightgrey",float:"right"};
-		const dpStyle={width:"100%",height:"250px"};
-		const dpImgStyle={width:"100%",height:"100%"};
+		const dpStyle={width:"100%",height:"250px",display:"flex",justifyContent:"center",alignItems:"center"};
+		const dpImgStyle={width:"80%",height:"80%",borderRadius:"10px"};
 		const navigationConstStyle={width:"100%",height:"150px"};
 		const contNissaanArr={width:"100%",height:"50px"};
 		const mereNissaann={width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"};
 		const myUl={listStyleType:"none"};
 		const clickableListOnMainPage={width:"100%",height:"30px",display:"flex",alignItems:"center"};
-		const mmActFontingCursor={cursor:"pointer"};
+		const mmActFontingCursor={cursor:"pointer",fontFamily:'"Helvetica Neue",Helvetica,Arial,sans-serif'};
 		const mmMyPlayListStyle={width:"100%",height:"50px"};
 		const mereNissaann_x={width:"100%",height:"100%",display:"flex",justifyContent:"center",alignItems:"center"};
+		const whyDontWeShareSameLove={fontFamily:'"Helvetica Neue",Helvetica,Arial,sans-serif',position:"absolute",backgroundColor:"white",cursor:"pointer",borderRadius:"4px"}
 		class HomeBodyPartOne extends React.Component {
 			constructor(props){
 				super(props);
 				this.state = {
 					logMsg:"Sign up to Linkedface",
-					rc:"/ajay.jpg",
-					linkOf:["My Social face","My Professional face","My Consumer face","My Writer face","My Dating face"],
-					name:"Ajay Jha"
+					rc:window.__rasoola.allah[2]==""?(window.__rasoola.allah[3]=="male"?"/male.png":"/female.png"):window.__rasoola.allah[2],
+					linkOf:["Social face","Professional face","Consumer face","Writer face","Dating face"],
+					name:window.__rasoola.allah[0],
+					palestineWillBeFree:""
 				};
 				this._mm_toolkit_fonting_enter=this._mm_toolkit_fonting_enter.bind(this);
 				this._mm_toolkit_fonting_out=this._mm_toolkit_fonting_out.bind(this);
+				this.componentDidMount=this.componentDidMount.bind(this);
+				this._upload_dp_optio_provider=this._upload_dp_optio_provider.bind(this);
+				this._upload_dp_optio_remover=this._upload_dp_optio_remover.bind(this);
+				this._ckicl_on_piece_be_upon_muhammad=this._ckicl_on_piece_be_upon_muhammad.bind(this);
+			}
+			_ckicl_on_piece_be_upon_muhammad(evt){
+				evt.preventDefault();
+				evt.stopPropagation();
+				ReactDOM.unmountComponentAtNode(document.getElementById('_js_root_animation'))
+				ReactDOM.render(<ChangeDPPopup />,document.getElementById('_js_root_animation'))
+			}
+			_upload_dp_optio_remover(evt){
+				evt.preventDefault();
+				evt.stopPropagation();
+				this.setState({
+					palestineWillBeFree:""
+				});
+			}
+			_upload_dp_optio_provider(evt){
+				evt.preventDefault();
+				evt.stopPropagation();
+				this.setState({
+					palestineWillBeFree:"Change DP"
+				});
+			}
+			componentDidMount(){
+				/*var that=this;
+				Rx.Observable.ajax({ url: `/redirect`, responseType: 'json',method:'GET'}).map(data=>data.response)
+				.subscribe(
+				function (data) {
+					console.log(data);
+					let os=data.articles[0]
+					let ms=[];
+					ms.push(os)
+					that.setState({
+						inputArr:data.articles,
+						cur:ms,
+						source:data.source
+					});
+
+
+				},
+			function (error) {
+					console.log(error);
+				}
+			);*/
 			}
 			_mm_toolkit_fonting_out(evt){
 				evt.preventDefault();
@@ -42,15 +566,16 @@
 				return (
 					<div style={homeBodyMainStyle}>
 						<div style={home_p_three_white}>
-							<div style={dpStyle}>
+							<div id="_lol_wa_one" style={dpStyle} onMouseEnter={this._upload_dp_optio_provider} onMouseLeave={this._upload_dp_optio_remover}>
 								<img src={this.state.rc} style={dpImgStyle} />
+								<div style={whyDontWeShareSameLove} onClick={this._ckicl_on_piece_be_upon_muhammad}>{this.state.palestineWillBeFree}</div>
 							</div>
-							<div style={contNissaanArr}>
+							<div id="_lol_wa_two" style={contNissaanArr}>
 								<div style={mereNissaann}>
 									<font size={3} color="black" style={mmActFontingCursor}>{this.state.name}</font>
 								</div>
 							</div>
-							<div style={navigationConstStyle}>
+							<div id="_lol_wa_three" style={navigationConstStyle}>
 								<ul style={myUl}>
 								{
 									this.state.linkOf.map( (a,b) => {
@@ -61,12 +586,13 @@
 								}
 								</ul>
 							</div>
-							<div style={mmMyPlayListStyle}>
+							<div id="_lol_wa_four" style={mmMyPlayListStyle}>
 								<div style={mereNissaann_x}>
 									<font size={3} color="black" style={mmActFontingCursor}>My Playlist</font>
 								</div>
 							</div>
 							<div id="_mm_playlist_hou_bachcha">
+								<MyOwnPlayList />
 							</div>
 						</div>
 					</div>
