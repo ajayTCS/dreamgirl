@@ -63,12 +63,6 @@
 			"revisionTime": "2017-05-30T19:55:47Z"
 		},
 		{
-			"checksumSHA1": "NINq1Ulg9fM5WS90x/AYPe+e3ik=",
-			"path": "github.com/gotsunami/go-cloudinary",
-			"revision": "0ed519cc11198391764646f7c247e951e735ca6a",
-			"revisionTime": "2017-03-16T18:10:03Z"
-		},
-		{
 			"checksumSHA1": "FRhS1BUn7QYJODTJaU1LF7uCka0=",
 			"path": "github.com/johnnadratowski/golang-neo4j-bolt-driver",
 			"revision": "2387cc1f01254d3a0055e034f5716278a1f420c7",
@@ -111,12 +105,6 @@
 			"revisionTime": "2016-12-20T21:52:15Z"
 		},
 		{
-			"checksumSHA1": "vFLqXt8w8foolcF/cr3Hrg7vRzI=",
-			"path": "github.com/kyokomi/cloudinary",
-			"revision": "b4d50f43b0e717259ac085007ed2592ea87b2b3c",
-			"revisionTime": "2015-05-17T03:41:10Z"
-		},
-		{
 			"checksumSHA1": "ZUOd8OUOp+xdpB7p4w/O86Y8wyc=",
 			"path": "github.com/manucorporat/sse",
 			"revision": "c142f0f1baea5cef7f98a8a6c222f6134368c1f5"
@@ -130,10 +118,6 @@
 			"checksumSHA1": "lQlNwdfW3dVSpBhim0KHyxcHOeo=",
 			"path": "github.com/mattn/go-isatty",
 			"revision": "7fcbc72f853b92b5720db4a6b8482be612daef24"
-		},
-		{
-			"path": "github.com/qiscus/qiscus-sdk-api/api/admin/v1",
-			"revision": ""
 		},
 		{
 			"checksumSHA1": "hKZGpbFuCrkE4s1vxubKK1aFlfI=",
